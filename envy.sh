@@ -26,7 +26,7 @@ envy() {
 }
 
 if [ -n "${1:-}" ]; then
-  envy $1
+    envy $1
 else
-  echo "Usage: ./envy.sh <input>"
+    echo "Usage: ./envy.sh <input>"
 fi
