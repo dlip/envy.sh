@@ -12,8 +12,8 @@
 
 - bash
 - If using vault: 
-    - vault: https://www.vaultproject.io/docs/install/ and 
-    - jq: https://github.com/stedolan/jq
+    - [vault](https://www.vaultproject.io/docs/install/)
+    - [jq](https://github.com/stedolan/jq)
 
 ## Usage
 
@@ -55,7 +55,7 @@ The highest priority is existing environment variables and envy will ignore any 
 
 Input is evaluated top to bottom, if there is multiple declarations only the first one will be loaded.
 
-Includes are also evaluated at the line they are included, if you want the include to take precedence add it to the top of the file if you want the current input to take precedence add it to the bottom of the file
+Includes are also evaluated at the line they are included, if you want the include to take precedence add it to the top of the file if you want the current input to take precedence add it to the bottom of the file.
 
 ## Examples
 
