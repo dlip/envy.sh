@@ -15,6 +15,15 @@
     - [vault](https://www.vaultproject.io/docs/install/)
     - [jq](https://github.com/stedolan/jq)
 
+## Installation
+
+Download `envy.sh` and add to your repository:
+
+```
+curl -OL https://raw.githubusercontent.com/dlip/envy/master/envy.sh
+chmod +x ./envy.sh
+```
+
 ## Usage
 
 `./env.sh <input>`
@@ -23,10 +32,11 @@
 
 ### env file
 
-'.env' file in the format:
+'.env' file in the format `KEY=value`:
 
 ```
-KEY=value
+VERSION=v1.0.0
+ENVIRONMENT=development
 ```
 
 ### vault
@@ -47,11 +57,12 @@ To include another input, add the key `_INCLUDE` with the name of the input as t
 _INCLUDE=vault://secret/myapp/secrets
 _INCLUDE=.other.env
 VERSION=v1.0.0
+ENVIRONMENT=development
 ```
 
 ## Variable Precedence
 
-The highest priority is existing environment variables and envy will ignore any duplicates in the input.
+The highest priority is existing environment variables, envy will ignore any duplicates in the input.
 
 Input is evaluated top to bottom, if there is multiple declarations only the first one will be loaded.
 
