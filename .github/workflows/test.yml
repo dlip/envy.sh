@@ -1,0 +1,15 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: bats/bats
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run tests
+      run: |
+        cd tests
+        ./test.sh
