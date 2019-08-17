@@ -1,6 +1,6 @@
 # [envy](https://github.com/dlip/envy)
 
-Stylish environment variable loading
+🤵Stylish environment variable loading🤵
 
 ## Features
 
