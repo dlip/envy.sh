@@ -79,3 +79,11 @@ ENVIRONMENT=development
 - The highest priority is existing environment variables, envy will ignore any duplicates in the input.
 - Input is evaluated top to bottom, if there is multiple declarations only the first one will be loaded.
 - Includes are evaluated at the line they are included, if you want the include to take precedence add it to the top of the file, if you want the current input to take precedence add it to the bottom of the file.
+
+## Todo
+
+- [ ] Different output formats bash make env-file docker-env-args
+- [ ] Optionally override environment variables
+- [ ] Consul input
+- [ ] JSON input
+- [ ] YAML input

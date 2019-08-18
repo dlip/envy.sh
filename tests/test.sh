@@ -2,7 +2,7 @@
 
 load '/usr/local/lib/bats/load.bash'
 
-@test "Should output variables with export prefix" {
+@test "Given env-file input and bash output, should output variables with export prefix" {
   result="$(../envy.sh basic.env)"
   expected="export VERSION=1.0.0
 export ENVIRONMENT=development"
@@ -11,7 +11,7 @@ export ENVIRONMENT=development"
 }
 
 
-@test "Should ignore existing environment variables" {
+@test "Given existing environment variables, Should not output" {
   export VERSION=2.0.0
   result="$(../envy.sh basic.env)"
   expected="export ENVIRONMENT=development"
@@ -19,11 +19,19 @@ export ENVIRONMENT=development"
   assert_equal "${result}" "${expected}"
 }
 
-@test "Should load includes" {
+@test "Given include, should combine output" {
   result="$(../envy.sh include.env)"
   expected="export VERSION=1.0.0
 export ENVIRONMENT=development
-export EXTRA=dane"
+export NAME=envy"
 
-  [ "$result" = "$expected" ]
+  assert_equal "${result}" "${expected}"
+}
+
+@test "Given include with low priority, should be overriden" {
+  result="$(../envy.sh include-override.env)"
+  expected="export ENVIRONMENT=production
+export VERSION=1.0.0"
+
+  assert_equal "${result}" "${expected}"
 }

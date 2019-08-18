@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
+# envy: https://github.com/dlip/envy
 
 set -euo pipefail
+
+OUTPUT_FORMAT=${2:-bash}
 
 envy() {
     INPUT=$1
@@ -19,7 +22,11 @@ envy() {
         else
             # If variable not already set then export
             if [ -z "${!K:-}" ]; then
-                echo "export $K=$V"
+                BASH_FORMAT="export $K=$V"
+                eval "${BASH_FORMAT}"
+                if [ $OUTPUT_FORMAT == "bash" ]; then
+                    echo $BASH_FORMAT
+                fi
             fi
         fi
     done
@@ -28,5 +35,6 @@ envy() {
 if [ -n "${1:-}" ]; then
     envy $1
 else
-    echo "Usage: ./envy.sh <input>"
+    echo "Usage: ./envy.sh input [output-format]"
+    echo "Valid output formats: bash (default), env-file"
 fi
