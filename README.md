@@ -28,6 +28,12 @@ chmod +x ./envy.sh
 
 ## Usage
 
+### basic
+
+```
+./envy.sh input [output-format]
+```
+
 ### bash 
 
 ```
@@ -43,9 +49,9 @@ $(foreach var,$(shell ./envy.sh $(CONFIG)),$(eval $(var)))
 
 ## Supported Inputs
 
-### env file
+### env-file
 
-'.env' file in the format `KEY=value`:
+File in the format `KEY=value`:
 
 ```
 VERSION=v1.0.0
@@ -61,6 +67,22 @@ URI eg. `vault://secret/myapp/secrets` with data in key value format:
     "VERSION": "v1.0.0",
     "ENVIRONMENT": "development"
 }
+```
+
+## Supported Output Formats
+
+### bash (default)
+
+```
+export VERSION=v1.0.0
+export ENVIRONMENT=development
+```
+
+### env-file
+
+```
+VERSION=v1.0.0
+ENVIRONMENT=development
 ```
 
 ## Includes
@@ -82,6 +104,8 @@ ENVIRONMENT=development
 
 ## Todo
 
+- [ ] Allow _INCLUDE*
+- [ ] Check `\` escapes correctly
 - [ ] Output formats make docker-env-args
 - [ ] Optionally override environment variables
 - [ ] Consul input
