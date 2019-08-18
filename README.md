@@ -101,13 +101,13 @@ ENVIRONMENT=development
 
 ## Variable Precedence
 
-- The highest priority is existing environment variables, envy will ignore any duplicates in the input.
-- Input is evaluated top to bottom, if there is multiple declarations only the first one will be loaded.
-- Includes are evaluated at the line they are included, if you want the include to take precedence add it to the top of the file, if you want the current input to take precedence add it to the bottom of the file.
+- Existing environment variables will not be overridden
+- Includes will override variables which are declared afterwards, if you have a shared common.env include add it to the bottom of your file so preceding variables can override its contents
 
 ## Todo
 
 - [ ] Check `\` escapes correctly
+- [ ] Consider how to prioritise includes with json
 - [ ] Output formats make docker-env-args
 - [ ] Optionally override environment variables
 - [ ] Consul input
