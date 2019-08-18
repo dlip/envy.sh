@@ -60,6 +60,7 @@ File in the format `KEY=value`:
 
 ```
 VERSION=v1.0.0
+# This is a comment about the environment
 ENVIRONMENT=development
 ```
 
