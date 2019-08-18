@@ -4,9 +4,9 @@ on: [push]
 
 jobs:
   test:
+    runs-on: ubuntu-latest
     steps:
       - name: Test
-        runs-on: ubuntu-latest
         uses: ./.github/actions/test
         with:
           entrypoint: bash
