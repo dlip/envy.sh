@@ -34,6 +34,9 @@ chmod +x ./envy.sh
 ./envy.sh input [output-format]
 ```
 
+- [Supported Inputs](#supported-inputs)
+- [Supported Ouput Formats](#supported-output-formats)
+
 ### bash 
 
 ```
