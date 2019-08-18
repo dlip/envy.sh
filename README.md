@@ -114,7 +114,6 @@ ENVIRONMENT=development
 
 ## Todo
 
-- [ ] Check comments are ignored
 - [ ] Consider how to prioritise includes with json
 - [ ] Optionally override environment variables
 - [ ] Consul input

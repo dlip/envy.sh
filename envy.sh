@@ -12,7 +12,7 @@ envy() {
         VAULT_RESPONSE=$(vault read ${VAULT_PATH} -format=json)
         CONTENTS=$(echo ${VAULT_RESPONSE} | jq -r '.data|to_entries|map("\(.key)=\(.value|tostring)")|.[]')
     else
-        CONTENTS=$(cat $INPUT)
+        CONTENTS=$(cat $INPUT | grep "^[^#]")
     fi
     for PAIR in ${CONTENTS}; do
         K=$(echo ${PAIR} | sed 's/\([^=]*\)=\(.*\)/\1/')
