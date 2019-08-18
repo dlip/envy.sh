@@ -16,7 +16,7 @@ Stylish environment variable loading
 - If using vault: 
     - [vault](https://www.vaultproject.io/docs/install/)
     - [jq](https://github.com/stedolan/jq)
-- Alternatively you can the [docker](https://docs.docker.com/install/) image which contains all the dependencies. To create an alias called `envy.sh` run:
+- Alternatively you can use the [docker](https://docs.docker.com/install/) [image](https://cloud.docker.com/u/dlip/repository/docker/dlip/envy.sh) which contains all the dependencies. To create an alias called `envy.sh` run:
   - `alias envy.sh='docker run -it --rm -v $PWD:/envy --workdir /envy dlip/envy.sh'`
 
 ## Installation
