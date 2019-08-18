@@ -42,3 +42,10 @@ export VERSION=1.0.0"
 
   assert_equal "${result}" "${expected}"
 }
+
+@test "Given env file which matches internally used variable, should not ignored" {
+  result="$(../envy.sh internal-variable.env)"
+  expected="export CONTENTS=test"
+
+  assert_equal "${result}" "${expected}"
+}

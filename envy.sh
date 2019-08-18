@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-OUTPUT_FORMAT=${2:-bash}
+OUTPUT=${2:-bash}
 
 envy() {
     INPUT=$1
@@ -14,20 +14,20 @@ envy() {
     else
         CONTENTS=$(cat $INPUT)
     fi
-    for PAIR in $CONTENTS; do
+    for PAIR in ${CONTENTS}; do
         K=$(echo ${PAIR} | sed 's/\([^=]*\)=\(.*\)/\1/')
         V=$(echo ${PAIR} | sed 's/\([^=]*\)=\(.*\)/\2/')
         if [ $K == "_INCLUDE" ]; then
             envy $V
         else
             # If variable not already set then export
-            if [ -z "${!K:-}" ]; then
+            if [ -z "$(printenv ${K})" ]; then
                 BASH_FORMAT="export $K=$V"
                 eval "${BASH_FORMAT}"
-                if [ $OUTPUT_FORMAT == "bash" ]; then
-                    echo $BASH_FORMAT
-                elif [ $OUTPUT_FORMAT == "env-file" ]; then
-                    echo "$K=$V"
+                if [ $OUTPUT == "bash" ]; then
+                    echo "${BASH_FORMAT}"
+                elif [ ${OUTPUT} == "env-file" ]; then
+                    echo "${PAIR}"
                 fi
             fi
         fi
