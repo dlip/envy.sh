@@ -2,7 +2,7 @@
 
 Stylish environment variable loading
 
-![badge](https://action-badges.now.sh/dlip/envy))
+[![Actions Status](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/badge/dlip/envy)](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/results/dlip/envy)
 
 ## Features
 
