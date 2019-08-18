@@ -6,7 +6,7 @@ jobs:
   test:
     steps:
       - name: Test
-        uses: docker://bats/bats
-        run: |
-          cd tests
-          ./test.sh
+        uses: ./.github/actions/test
+        with:
+          entrypoint: bash
+          args: ls -la
