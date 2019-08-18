@@ -1,8 +1,8 @@
-# [envy](https://github.com/dlip/envy)🤵
+# [envy.sh](https://github.com/dlip/envy.sh)🤵
 
 Stylish environment variable loading
 
-[![Actions Status](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/badge/dlip/envy)](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/results/dlip/envy)
+[![Actions Status](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/badge/dlip/envy.sh)](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/results/dlip/envy.sh)
 
 ## Features
 
@@ -22,7 +22,7 @@ Stylish environment variable loading
 Download `envy.sh` and add to your repository:
 
 ```
-curl -OL https://raw.githubusercontent.com/dlip/envy/master/envy.sh
+curl -OL https://raw.githubusercontent.com/dlip/envy.sh/master/envy.sh
 chmod +x ./envy.sh
 ```
 
@@ -87,11 +87,11 @@ ENVIRONMENT=development
 
 ## Includes
 
-To include another input, add the key `_INCLUDE` with the name of the input as the value. It supports any of the inputs listed above. eg:
+To include another input, add the key `_INCLUDE*` with the name of the input as the value. It supports any of the inputs listed above. eg:
 
 ```
-_INCLUDE=vault://secret/myapp/secrets
-_INCLUDE=other.env
+_INCLUDE_SECRETS=vault://secret/myapp/secrets
+_INCLUDE_OTHER=other.env
 VERSION=v1.0.0
 ENVIRONMENT=development
 ```
@@ -104,7 +104,6 @@ ENVIRONMENT=development
 
 ## Todo
 
-- [ ] Allow _INCLUDE*
 - [ ] Check `\` escapes correctly
 - [ ] Output formats make docker-env-args
 - [ ] Optionally override environment variables

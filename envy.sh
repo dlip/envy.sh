@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# envy: https://github.com/dlip/envy
+# envy.sh: https://github.com/dlip/envy.sh
 
 set -euo pipefail
 
@@ -17,7 +17,7 @@ envy() {
     for PAIR in ${CONTENTS}; do
         K=$(echo ${PAIR} | sed 's/\([^=]*\)=\(.*\)/\1/')
         V=$(echo ${PAIR} | sed 's/\([^=]*\)=\(.*\)/\2/')
-        if [ $K == "_INCLUDE" ]; then
+        if grep -q "^_INCLUDE" <<< "${K}"; then
             envy $V
         else
             # If variable not already set then export

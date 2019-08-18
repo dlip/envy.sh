@@ -35,6 +35,15 @@ export NAME=envy"
   assert_equal "${result}" "${expected}"
 }
 
+@test "Given multiple includes, should combine output" {
+  result="$(../envy.sh multiple-include.env)"
+  expected="export VERSION=1.0.0
+export ENVIRONMENT=development
+export NAME=envy"
+
+  assert_equal "${result}" "${expected}"
+}
+
 @test "Given include with low priority, should be overriden" {
   result="$(../envy.sh include-override.env)"
   expected="export ENVIRONMENT=production
