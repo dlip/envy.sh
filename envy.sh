@@ -44,4 +44,5 @@ if [ -n "${1:-}" ]; then
 else
     echo "Usage: ./envy.sh input [output-format]"
     echo "Valid output formats: bash (default), make, env-file"
+    echo "See project for details: https://github.com/dlip/envy.sh"
 fi
