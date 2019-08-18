@@ -10,5 +10,5 @@ jobs:
       - name: Test
         uses: ./.github/actions/test
         with:
-          working-directory: tests
-          args: test.sh
+          entrypoint: bash
+          args: -e "cd tests && ./test.sh"
