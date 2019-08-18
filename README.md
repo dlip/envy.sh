@@ -7,7 +7,7 @@ Stylish environment variable loading
 ## Features
 
 - Include variables from other files/inputs
-- Multiple input types including vault which keeps secrets only in memory, not on disk
+- Multiple input types including vault which allows you keeps secrets only in memory for better security
 - Variable precedence allows logical overriding of common settings
 
 ## Requirements
