@@ -22,12 +22,17 @@ envy() {
         else
             # If variable not already set then export
             if [ -z "$(printenv ${K})" ]; then
-                BASH_FORMAT="export $K=$V"
+                ESCAPED_VALUE=$(sed 's/\\/\\\\/g' <<< "${V}")
+                BASH_FORMAT="export ${K}=${ESCAPED_VALUE}"
                 eval "${BASH_FORMAT}"
                 if [ $OUTPUT == "bash" ]; then
                     echo "${BASH_FORMAT}"
                 elif [ ${OUTPUT} == "env-file" ]; then
                     echo "${PAIR}"
+                elif [ ${OUTPUT} == "make" ]; then
+                    MAKE_ESCAPED_VALUE=$(sed 's/\([$]\)/$\1/g' <<< "${ESCAPED_VALUE}")
+                    MAKE_ESCAPED_VALUE=$(sed 's/\([#]\)/\\\1/g' <<< "${MAKE_ESCAPED_VALUE}")
+                    echo "export ${K}=${MAKE_ESCAPED_VALUE}"
                 fi
             fi
         fi
@@ -38,5 +43,5 @@ if [ -n "${1:-}" ]; then
     envy $1
 else
     echo "Usage: ./envy.sh input [output-format]"
-    echo "Valid output formats: bash (default), env-file"
+    echo "Valid output formats: bash (default), make, env-file"
 fi

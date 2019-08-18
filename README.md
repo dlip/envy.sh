@@ -47,7 +47,7 @@ eval $(./envy.sh .env)
 
 ```
 export CONFIG ?= .env
-$(foreach var,$(shell ./envy.sh $(CONFIG)),$(eval $(var)))
+$(foreach var,$(shell ./envy.sh $(CONFIG) make),$(eval $(var)))
 ```
 
 ## Supported Inputs
@@ -79,6 +79,14 @@ URI eg. `vault://secret/myapp/secrets` with data in key value format:
 ```
 export VERSION=v1.0.0
 export ENVIRONMENT=development
+export LOG_FILE=C:\\log.txt
+```
+
+### make
+
+```
+export LOG_FILE=C:\\log.txt
+export PASSWORD=$$\\\#GOD\#/$$
 ```
 
 ### env-file
@@ -106,10 +114,10 @@ ENVIRONMENT=development
 
 ## Todo
 
-- [ ] Check `\` escapes correctly
+- [ ] Check comments are ignored
 - [ ] Consider how to prioritise includes with json
-- [ ] Output formats make docker-env-args
 - [ ] Optionally override environment variables
 - [ ] Consul input
-- [ ] JSON input
-- [ ] YAML input
+- [ ] JSON input/output
+- [ ] YAML input/output
+- [ ] docker-env-args output
