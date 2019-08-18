@@ -1,4 +1,4 @@
-FROM bats/bats
+FROM lucor/bats
 
 ADD entrypoint.sh /entrypoint.sh
 

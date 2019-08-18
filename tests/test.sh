@@ -1,11 +1,13 @@
 #!/usr/bin/env bats
 
+load '/usr/local/lib/bats/load.bash'
+
 @test "Should output variables with export prefix" {
   result="$(../envy.sh basic.env)"
   expected="export VERSION=1.0.0
 export ENVIRONMENT=development"
 
-  [ "$result" = "$expected" ]
+  assert_equal "${result}" "${expected}"
 }
 
 
@@ -14,7 +16,7 @@ export ENVIRONMENT=development"
   result="$(../envy.sh basic.env)"
   expected="export ENVIRONMENT=development"
 
-  [ "$result" = "$expected" ]
+  assert_equal "${result}" "${expected}"
 }
 
 @test "Should load includes" {
