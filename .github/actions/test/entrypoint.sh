@@ -2,7 +2,5 @@
 
 set -euo pipefail
 
-pwd
-
 cd tests
 ./test.sh

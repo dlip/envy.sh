@@ -2,6 +2,8 @@
 
 Stylish environment variable loading
 
+[![Actions Status](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/badge/dlip/envy)](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/results/dlip/envy)
+
 ## Features
 
 - Include variables from other files/inputs
