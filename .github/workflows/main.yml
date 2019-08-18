@@ -10,5 +10,5 @@ jobs:
       - name: Test
         uses: ./.github/actions/test
         with:
-          entrypoint: bash
-          args: ls -la
+          working-directory: /github/workspace/tests
+          args: test.sh
