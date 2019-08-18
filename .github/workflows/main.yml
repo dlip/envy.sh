@@ -11,4 +11,4 @@ jobs:
         uses: ./.github/actions/test
         with:
           entrypoint: bash
-          args: -e "find ."
+          args: -e "ls -la && pwd"
