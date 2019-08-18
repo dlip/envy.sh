@@ -26,6 +26,8 @@ envy() {
                 eval "${BASH_FORMAT}"
                 if [ $OUTPUT_FORMAT == "bash" ]; then
                     echo $BASH_FORMAT
+                elif [ $OUTPUT_FORMAT == "env-file" ]; then
+                    echo "$K=$V"
                 fi
             fi
         fi

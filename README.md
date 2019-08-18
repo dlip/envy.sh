@@ -82,7 +82,7 @@ ENVIRONMENT=development
 
 ## Todo
 
-- [ ] Different output formats bash make env-file docker-env-args
+- [ ] Output formats make docker-env-args
 - [ ] Optionally override environment variables
 - [ ] Consul input
 - [ ] JSON input

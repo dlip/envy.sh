@@ -10,6 +10,13 @@ export ENVIRONMENT=development"
   assert_equal "${result}" "${expected}"
 }
 
+@test "Given env-file input and env-file output, should output variables without export prefix" {
+  result="$(../envy.sh basic.env env-file)"
+  expected="VERSION=1.0.0
+ENVIRONMENT=development"
+
+  assert_equal "${result}" "${expected}"
+}
 
 @test "Given existing environment variables, Should not output" {
   export VERSION=2.0.0
