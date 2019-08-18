@@ -10,5 +10,5 @@ jobs:
       - name: Test
         uses: ./.github/actions/test
         with:
-          working-directory: /github/workspace/tests
+          working-directory: tests
           args: test.sh
