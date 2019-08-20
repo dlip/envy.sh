@@ -7,7 +7,7 @@ OUTPUT=${2:-bash}
 
 envy() {
     INPUT=$1
-    if grep -q "vault://" <<< "$INPUT"; then
+    if grep -q "^vault://" <<< "$INPUT"; then
         VAULT_PATH=$(echo ${INPUT} | sed 's/vault:\/\///')
         VAULT_RESPONSE=$(vault read ${VAULT_PATH} -format=json)
         CONTENTS=$(echo ${VAULT_RESPONSE} | jq -r '.data|to_entries|map("\(.key)=\(.value|tostring)")|.[]')

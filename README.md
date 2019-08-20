@@ -41,8 +41,16 @@ chmod +x ./envy.sh
 
 ### bash 
 
+Import environment variables to current shell
+
 ```
 eval $(./envy.sh .env)
+```
+
+Import environment variables in sub-shell and run command (replace env with your command)
+
+```
+bash -c 'eval $(bin/envy.sh .env) && env'
 ```
 
 ### make
