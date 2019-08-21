@@ -24,7 +24,7 @@ Stylish environment variable loading
 Download `envy.sh` and add to your repository:
 
 ```
-curl -OL https://raw.githubusercontent.com/dlip/envy.sh/master/envy.sh
+curl -OL https://github.com/dlip/envy.sh/releases/latest/download/envy.sh
 chmod +x ./envy.sh
 ```
 
@@ -127,7 +127,7 @@ ENVIRONMENT=development
 
 ### [v1.1.0 (2019-08-21)](https://github.com/dlip/envy.sh/releases/tag/v1.1.0)
 
-- 
+- Relative file loading
 
 ### [v1.0.0 (2019-08-21)](https://github.com/dlip/envy.sh/releases/tag/v1.0.0)
 
@@ -135,7 +135,6 @@ ENVIRONMENT=development
 
 ## Todo
 
-- [ ] Relative env-file loading
 - [ ] Consider how to prioritise includes with json
 - [ ] Vault testing
 - [ ] Optionally override environment variables
