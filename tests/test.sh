@@ -75,38 +75,16 @@ export VERSION=1.0.0'
   assert_equal "${result}" "${expected}"
 }
 
-@test "Given value with backslash and bash output, should escape correctly" {
-  result="$(../envy.sh backslash.env)"
-  expected='export LOG_FILE=C:\\log.txt'
+@test "Given value with special characters and bash output, should escape correctly" {
+  result="$(../envy.sh escape.env)"
+  expected='export PASSWORD=\$\\#GOD#\ /\$'
 
   assert_equal "${result}" "${expected}"
 }
 
-@test "Given value with backslash and env-file output, should not escape" {
-  result="$(../envy.sh backslash.env env-file)"
-  expected='LOG_FILE=C:\log.txt'
-
-  assert_equal "${result}" "${expected}"
-}
-
-@test "Given value with dollar and bash output, should escape correctly" {
-  result="$(../envy.sh dollar.env)"
-  expected='export PRICE=\$100'
-
-  assert_equal "${result}" "${expected}"
-}
-
-@test "Given value with dollar and env-file output, should not escape" {
-  result="$(../envy.sh dollar.env env-file)"
-  expected='PRICE=$100'
-
-  assert_equal "${result}" "${expected}"
-}
-
-@test "Given make output, should escape correctly" {
-  result="$(../envy.sh make.env make)"
-  expected='export LOG_FILE=C:\\log.txt
-export PASSWORD=$$\\\#GOD\#/$$'
+@test "Given value with special characters and make output, should escape correctly" {
+  result="$(../envy.sh escape.env make)"
+  expected='export PASSWORD=$$\\\#GOD\# /$$'
 
   assert_equal "${result}" "${expected}"
 }

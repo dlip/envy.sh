@@ -125,6 +125,10 @@ ENVIRONMENT=development
 
 ## Changelog
 
+### [v1.1.1 (2019-08-21)](https://github.com/dlip/envy.sh/releases/tag/v1.1.1)
+
+- Bugfix: Spaces not being escaped correctly
+
 ### [v1.1.0 (2019-08-21)](https://github.com/dlip/envy.sh/releases/tag/v1.1.0)
 
 - Relative file loading
@@ -135,6 +139,7 @@ ENVIRONMENT=development
 
 ## Todo
 
+- [ ] Variable substitution {{ }} ?
 - [ ] Consider how to prioritise includes with json
 - [ ] Vault testing
 - [ ] Optionally override environment variables
