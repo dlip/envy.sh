@@ -123,6 +123,16 @@ ENVIRONMENT=development
 - Existing environment variables will not be overridden
 - Includes will override variables which are declared afterwards, if you have a shared common.env include add it to the bottom of your file so preceding variables can override its contents
 
+## Changelog
+
+### [v1.1.0 (2019-08-21)](https://github.com/dlip/envy.sh/releases/tag/v1.1.0)
+
+- 
+
+### [v1.0.0 (2019-08-21)](https://github.com/dlip/envy.sh/releases/tag/v1.0.0)
+
+- Initial Release
+
 ## Todo
 
 - [ ] Relative env-file loading
