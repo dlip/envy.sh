@@ -7,12 +7,15 @@ OUTPUT=${2:-bash}
 
 envy() {
     INPUT=$1
+    IS_LOCAL_FILE=true
     if grep -q "^vault://" <<< "$INPUT"; then
+        IS_LOCAL_FILE=false
         VAULT_PATH=$(echo ${INPUT} | sed 's/vault:\/\///')
         VAULT_RESPONSE=$(vault read ${VAULT_PATH} -format=json)
         CONTENTS=$(echo ${VAULT_RESPONSE} | jq -r '.data|to_entries|map("\(.key)=\(.value|tostring)")|.[]')
     else
-        CONTENTS=$(cat $INPUT | grep "^[^#]")
+        pushd $(dirname "${INPUT}") > /dev/null
+        CONTENTS=$(cat $(basename "${INPUT}") | grep "^[^#]")
     fi
     for PAIR in ${CONTENTS}; do
         K=$(echo ${PAIR} | sed 's/\([^=]*\)=\(.*\)/\1/')
@@ -38,12 +41,15 @@ envy() {
             fi
         fi
     done
+    if [ "${IS_LOCAL_FILE}" = "true" ]; then
+        popd > /dev/null
+    fi
 }
 
 if [ -n "${1:-}" ]; then
     envy $1
 else
-    echo "envy.sh v1.0.0"
+    echo "envy.sh v1.1.0"
     echo "Usage: envy.sh input [output-format]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"

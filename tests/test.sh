@@ -110,3 +110,12 @@ export PASSWORD=$$\\\#GOD\#/$$'
 
   assert_equal "${result}" "${expected}"
 }
+
+@test "Given relative file locations, should load based on current file location" {
+  result="$(../envy.sh relative/file/loading/relative.env)"
+  expected='export RELATIVE=relative
+export FILE=file
+export LOADING=loading'
+
+  assert_equal "${result}" "${expected}"
+}
