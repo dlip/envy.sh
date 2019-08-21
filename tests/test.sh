@@ -89,6 +89,20 @@ export VERSION=1.0.0'
   assert_equal "${result}" "${expected}"
 }
 
+@test "Given value with dollar and bash output, should escape correctly" {
+  result="$(../envy.sh dollar.env)"
+  expected='export PRICE=\$100'
+
+  assert_equal "${result}" "${expected}"
+}
+
+@test "Given value with dollar and env-file output, should not escape" {
+  result="$(../envy.sh dollar.env env-file)"
+  expected='PRICE=$100'
+
+  assert_equal "${result}" "${expected}"
+}
+
 @test "Given make output, should escape correctly" {
   result="$(../envy.sh make.env make)"
   expected='export LOG_FILE=C:\\log.txt

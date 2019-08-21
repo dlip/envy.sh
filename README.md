@@ -125,9 +125,9 @@ ENVIRONMENT=development
 
 ## Todo
 
+- [ ] Relative env-file loading
 - [ ] Consider how to prioritise includes with json
+- [ ] Vault testing
 - [ ] Optionally override environment variables
 - [ ] Consul input
-- [ ] JSON input/output
-- [ ] YAML input/output
 - [ ] docker-env-args output

@@ -23,7 +23,8 @@ envy() {
             # If variable not already set then export
             if [ -z "$(printenv ${K})" ]; then
                 ESCAPED_VALUE=$(sed 's/\\/\\\\/g' <<< "${V}")
-                BASH_FORMAT="export ${K}=${ESCAPED_VALUE}"
+                BASH_ESCAPED_VALUE=$(sed 's/\([$]\)/\\\1/g' <<< "${ESCAPED_VALUE}")
+                BASH_FORMAT="export ${K}=${BASH_ESCAPED_VALUE}"
                 eval "${BASH_FORMAT}"
                 if [ $OUTPUT == "bash" ]; then
                     echo "${BASH_FORMAT}"
