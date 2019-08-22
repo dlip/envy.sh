@@ -50,7 +50,7 @@ envy() {
 if [ -n "${1:-}" ]; then
     envy "${1}"
 else
-    echo "envy.sh v1.1.1"
+    echo "envy.sh v1.1.2"
     echo "Usage: envy.sh input [output-format]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"
