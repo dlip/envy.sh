@@ -30,11 +30,11 @@ envy() {
                 BASH_ESCAPED_VALUE=$(sed 's/\([$\\ ]\)/\\\1/g' <<< "${V}")
                 BASH_FORMAT="export ${K}=${BASH_ESCAPED_VALUE}"
                 eval "${BASH_FORMAT}"
-                if [ $OUTPUT == "bash" ]; then
+                if [ "${OUTPUT}" == "bash" ]; then
                     echo "${BASH_FORMAT}"
-                elif [ ${OUTPUT} == "env-file" ]; then
+                elif [ "${OUTPUT}" == "env-file" ]; then
                     echo "${PAIR}"
-                elif [ ${OUTPUT} == "make" ]; then
+                elif [ "${OUTPUT}" == "make" ]; then
                     MAKE_ESCAPED_VALUE=$(sed 's/\([$]\)/$\1/g' <<< "${V}")
                     MAKE_ESCAPED_VALUE=$(sed 's/\([#\\]\)/\\\1/g' <<< "${MAKE_ESCAPED_VALUE}")
                     echo "export ${K}=${MAKE_ESCAPED_VALUE}"
@@ -42,7 +42,7 @@ envy() {
             fi
         fi
     done <<< "${CONTENTS}"
-    if [ "${IS_LOCAL_FILE}" = "true" ]; then
+    if [ "${IS_LOCAL_FILE}" == "true" ]; then
         popd > /dev/null
     fi
 }
