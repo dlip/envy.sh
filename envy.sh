@@ -14,8 +14,10 @@ envy() {
         VAULT_RESPONSE=$(vault read ${VAULT_PATH} -format=json)
         CONTENTS=$(echo ${VAULT_RESPONSE} | jq -r '.data|to_entries|map("\(.key)=\(.value|tostring)")|.[]')
     else
-        pushd $(dirname "${INPUT}") > /dev/null
-        CONTENTS=$(cat $(basename "${INPUT}") | grep "^[^#]")
+        FILEPATH=$(dirname "${INPUT}")
+        pushd "${FILEPATH}" > /dev/null
+        FILENAME=$(basename "${INPUT}")
+        CONTENTS=$(cat "${FILENAME}" | grep "^[^#]")
     fi
     while read -r PAIR; do
         K=$(echo ${PAIR} | sed 's/\([^=]*\)=\(.*\)/\1/')
@@ -46,9 +48,9 @@ envy() {
 }
 
 if [ -n "${1:-}" ]; then
-    envy $1
+    envy "${1}"
 else
-    echo "envy.sh v1.1.1"
+    echo "envy.sh v1.1.2"
     echo "Usage: envy.sh input [output-format]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"

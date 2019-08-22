@@ -97,3 +97,10 @@ export LOADING=loading'
 
   assert_equal "${result}" "${expected}"
 }
+
+@test "Given file with spaces, should read file correctly" {
+  result="$(../envy.sh 'path with spaces/file with spaces.env')"
+  expected='export VERSION=1.0.0'
+
+  assert_equal "${result}" "${expected}"
+}
