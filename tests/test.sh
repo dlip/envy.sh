@@ -104,3 +104,12 @@ export LOADING=loading'
 
   assert_equal "${result}" "${expected}"
 }
+
+@test "Given ENVY_OVERRIDE_ENV, should output regardless of current environment" {
+  export ENVY_OVERRIDE_ENV=true
+  export VERSION=1.0.0
+  result="$(../envy.sh override-env.env)"
+  expected='export VERSION=2.0.0'
+
+  assert_equal "${result}" "${expected}"
+}

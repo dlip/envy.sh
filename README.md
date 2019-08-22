@@ -60,6 +60,27 @@ export CONFIG ?= .env
 $(foreach var,$(shell ./envy.sh $(CONFIG) make),$(eval $(var)))
 ```
 
+## Options
+
+Options are set via environment variables eg.
+
+```
+OPTION=true ./envy.sh ...
+```
+
+or
+
+```
+export OPTION=true
+./envy.sh ...
+```
+
+
+| Option            | Description                             | Values     | Default |
+| ----------------- | --------------------------------------- | ---------- | ------- |
+| ENVY_OVERRIDE_ENV | Override existing environment variables | true/false | false   |
+
+
 ## Supported Inputs
 
 ### env-file
@@ -120,10 +141,14 @@ ENVIRONMENT=development
 
 ## Variable Precedence
 
-- Existing environment variables will not be overridden
+- Existing environment variables will not be overridden, unless `ENVY_OVERRIDE_ENV` is set to true
 - Includes will override variables which are declared afterwards, if you have a shared common.env include add it to the bottom of your file so preceding variables can override its contents
 
 ## Changelog
+
+### [v1.2.0 (2019-08-22)](https://github.com/dlip/envy.sh/releases/tag/v1.2.0)
+
+- Optionally override environment variables
 
 ### [v1.1.2 (2019-08-22)](https://github.com/dlip/envy.sh/releases/tag/v1.1.2)
 
@@ -146,6 +171,5 @@ ENVIRONMENT=development
 - [ ] Variable substitution {{ }} ?
 - [ ] Consider how to prioritise includes with json
 - [ ] Vault testing
-- [ ] Optionally override environment variables
 - [ ] Consul input
 - [ ] docker-env-args output

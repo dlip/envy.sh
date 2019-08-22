@@ -5,6 +5,12 @@ set -euo pipefail
 
 OUTPUT=${2:-bash}
 
+ENV_NAMESPACE=
+ENVY_OVERRIDE_ENV="${ENVY_OVERRIDE_ENV:-}"
+if [ "${ENVY_OVERRIDE_ENV}" == "true" ]; then
+    ENV_NAMESPACE="__ENVY_"
+fi
+
 envy() {
     INPUT=$1
     IS_LOCAL_FILE=true
@@ -26,12 +32,12 @@ envy() {
             envy "${V}"
         else
             # If variable not already set then export
-            if [ -z "$(printenv ${K})" ]; then
+            EXISTING_VAR=$(printenv "${ENV_NAMESPACE}${K}" || true)
+            if [ -z "${EXISTING_VAR}" ]; then
                 BASH_ESCAPED_VALUE=$(sed 's/\([$\\ ]\)/\\\1/g' <<< "${V}")
-                BASH_FORMAT="export ${K}=${BASH_ESCAPED_VALUE}"
-                eval "${BASH_FORMAT}"
+                eval "export ${ENV_NAMESPACE}${K}=${BASH_ESCAPED_VALUE}"
                 if [ "${OUTPUT}" == "bash" ]; then
-                    echo "${BASH_FORMAT}"
+                    echo "export ${K}=${BASH_ESCAPED_VALUE}"
                 elif [ "${OUTPUT}" == "env-file" ]; then
                     echo "${PAIR}"
                 elif [ "${OUTPUT}" == "make" ]; then
@@ -50,7 +56,7 @@ envy() {
 if [ -n "${1:-}" ]; then
     envy "${1}"
 else
-    echo "envy.sh v1.1.2"
+    echo "envy.sh v1.2.0"
     echo "Usage: envy.sh input [output-format]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"
