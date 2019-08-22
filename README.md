@@ -129,7 +129,7 @@ ENVIRONMENT=development
 
 - Bugfix: Path with spaces not resolving
 
-### [v1.1.1 (2019-08-21)](https://github.com/dlip/envy.sh/releases/tag/v1.1.2)
+### [v1.1.1 (2019-08-21)](https://github.com/dlip/envy.sh/releases/tag/v1.1.1)
 
 - Bugfix: Spaces not being escaped correctly
 
