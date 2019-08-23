@@ -10,6 +10,33 @@ Stylish environment variable loading
 - Multiple input types including vault which allows you keeps secrets only in memory for better security
 - Variable precedence allows logical overriding of common settings
 
+## Example
+
+`cat base.env`
+
+```
+VERSION=1.0.0
+NAME=envy.sh
+ENVIRONMENT=development
+```
+
+`cat production.env`
+
+```
+ENVIRONMENT=production
+_INCLUDE_BASE=base.env
+_INCLUDE_VAULT=vault://secret/myapp/
+```
+
+`./envy.sh production.env`
+
+```
+export ENVIRONMENT=production
+export VERSION=1.0.0
+export NAME=envy.sh
+export SECRET_PASSWORD=GOD
+```
+
 ## Requirements
 
 - bash
@@ -77,7 +104,7 @@ export OPTION=true
 
 ### ENVY_EXPORT_EXISTING_ENV
 
-Export variables if matching existing environment variables (affects bash/make output only). Setting to false allows environment variables to take precidence.
+Export variables if already set in the environment (only bash/make output). Setting to false allows environment variables to take precidence.
 
 Options: true, false
 
