@@ -3,18 +3,15 @@
 
 set -euo pipefail
 
-OUTPUT=${2:-bash}
+OUTPUT="${2:-bash}"
 
-ENV_NAMESPACE=
-ENVY_OVERRIDE_ENV="${ENVY_OVERRIDE_ENV:-}"
-if [ "${ENVY_OVERRIDE_ENV}" == "true" ]; then
-    ENV_NAMESPACE="__ENVY_"
-fi
+ENV_NAMESPACE="__ENVY_"
+ENVY_EXPORT_EXISTING_ENV="${ENVY_EXPORT_EXISTING_ENV:-true}"
 
 envy() {
     INPUT=$1
     IS_LOCAL_FILE=true
-    if grep -q "^vault://" <<< "$INPUT"; then
+    if grep -q "^vault://" <<< "${INPUT}"; then
         IS_LOCAL_FILE=false
         VAULT_PATH=$(echo ${INPUT} | sed 's/vault:\/\///')
         VAULT_RESPONSE=$(vault read ${VAULT_PATH} -format=json)
@@ -26,8 +23,8 @@ envy() {
         CONTENTS=$(cat "${FILENAME}" | grep "^[^#]")
     fi
     while read -r PAIR; do
-        K=$(echo ${PAIR} | sed 's/\([^=]*\)=\(.*\)/\1/')
-        V=$(echo ${PAIR} | sed 's/\([^=]*\)=\(.*\)/\2/')
+        K=$(sed 's/\([^=]*\)=\(.*\)/\1/' <<< "${PAIR}")
+        V=$(sed 's/\([^=]*\)=\(.*\)/\2/' <<< "${PAIR}")
         if grep -q "^_INCLUDE" <<< "${K}"; then
             envy "${V}"
         else
@@ -36,14 +33,19 @@ envy() {
             if [ -z "${EXISTING_VAR}" ]; then
                 BASH_ESCAPED_VALUE=$(sed 's/\([$\\ ]\)/\\\1/g' <<< "${V}")
                 eval "export ${ENV_NAMESPACE}${K}=${BASH_ESCAPED_VALUE}"
+                EXISTING_ENV_VAR=$(printenv "${K}" || true)
                 if [ "${OUTPUT}" == "bash" ]; then
-                    echo "export ${K}=${BASH_ESCAPED_VALUE}"
+                    if [[ "${ENVY_EXPORT_EXISTING_ENV}" == "true" || -z "${EXISTING_ENV_VAR}" ]]; then
+                        echo "export ${K}=${BASH_ESCAPED_VALUE}"
+                    fi
                 elif [ "${OUTPUT}" == "env-file" ]; then
                     echo "${PAIR}"
                 elif [ "${OUTPUT}" == "make" ]; then
                     MAKE_ESCAPED_VALUE=$(sed 's/\([$]\)/$\1/g' <<< "${V}")
                     MAKE_ESCAPED_VALUE=$(sed 's/\([#\\]\)/\\\1/g' <<< "${MAKE_ESCAPED_VALUE}")
-                    echo "export ${K}=${MAKE_ESCAPED_VALUE}"
+                    if [[ "${ENVY_EXPORT_EXISTING_ENV}" == "true" || -z "${EXISTING_ENV_VAR}" ]]; then
+                        echo "export ${K}=${MAKE_ESCAPED_VALUE}"
+                    fi
                 fi
             fi
         fi

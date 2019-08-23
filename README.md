@@ -75,10 +75,13 @@ export OPTION=true
 ./envy.sh ...
 ```
 
+### ENVY_EXPORT_EXISTING_ENV
 
-| Option            | Description                             | Values     | Default |
-| ----------------- | --------------------------------------- | ---------- | ------- |
-| ENVY_OVERRIDE_ENV | Override existing environment variables | true/false | false   |
+Export variables if matching existing environment variables (bash/make output). Setting to false allows environment variables to take precidence.
+
+Options: true, false
+
+Default: true
 
 
 ## Supported Inputs
@@ -141,12 +144,12 @@ ENVIRONMENT=development
 
 ## Variable Precedence
 
-- Existing environment variables will not be overridden, unless `ENVY_OVERRIDE_ENV` is set to true
+- Existing environment variables will be overridden, unless `ENVY_EXPORT_EXISTING_ENV` is set to false
 - Includes will override variables which are declared afterwards, if you have a shared common.env include add it to the bottom of your file so preceding variables can override its contents
 
 ## Changelog
 
-### [v1.2.0 (2019-08-22)](https://github.com/dlip/envy.sh/releases/tag/v1.2.0)
+### [v1.2.0 (2019-08-23)](https://github.com/dlip/envy.sh/releases/tag/v1.2.0)
 
 - Optionally override environment variables
 

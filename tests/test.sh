@@ -34,14 +34,6 @@ ENVIRONMENT=development'
   assert_equal "${result}" "${expected}"
 }
 
-@test "Given existing environment variables, Should not output" {
-  export VERSION=2.0.0
-  result="$(../envy.sh basic.env)"
-  expected='export ENVIRONMENT=development'
-
-  assert_equal "${result}" "${expected}"
-}
-
 @test "Given include, should combine output" {
   result="$(../envy.sh include.env)"
   expected='export VERSION=1.0.0
@@ -105,11 +97,40 @@ export LOADING=loading'
   assert_equal "${result}" "${expected}"
 }
 
-@test "Given ENVY_OVERRIDE_ENV, should output regardless of current environment" {
-  export ENVY_OVERRIDE_ENV=true
+
+@test "Given existing environment variables, should export by default" {
+  export VERSION=2.0.0
+  result="$(../envy.sh basic.env)"
+  expected='export VERSION=1.0.0
+export ENVIRONMENT=development'
+
+  assert_equal "${result}" "${expected}"
+}
+
+@test "Given ENVY_EXPORT_EXISTING_ENV=false with bash output, should not output existing variables" {
+  export ENVY_EXPORT_EXISTING_ENV=false
   export VERSION=1.0.0
-  result="$(../envy.sh override-env.env)"
-  expected='export VERSION=2.0.0'
+  result="$(../envy.sh basic.env)"
+  expected='export ENVIRONMENT=development'
+
+  assert_equal "${result}" "${expected}"
+}
+
+@test "Given ENVY_EXPORT_EXISTING_ENV=false with make output, should not output existing variables" {
+  export ENVY_EXPORT_EXISTING_ENV=false
+  export VERSION=1.0.0
+  result="$(../envy.sh basic.env make)"
+  expected='export ENVIRONMENT=development'
+
+  assert_equal "${result}" "${expected}"
+}
+
+@test "Given ENVY_EXPORT_EXISTING_ENV=false with env-file output, should still output existing variables" {
+  export ENVY_EXPORT_EXISTING_ENV=false
+  export VERSION=1.0.0
+  result="$(../envy.sh basic.env env-file)"
+  expected='VERSION=1.0.0
+ENVIRONMENT=development'
 
   assert_equal "${result}" "${expected}"
 }
