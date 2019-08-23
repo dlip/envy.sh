@@ -77,7 +77,7 @@ export OPTION=true
 
 ### ENVY_EXPORT_EXISTING_ENV
 
-Export variables if matching existing environment variables (bash/make output). Setting to false allows environment variables to take precidence.
+Export variables if matching existing environment variables (affects bash/make output only). Setting to false allows environment variables to take precidence.
 
 Options: true, false
 
