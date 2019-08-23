@@ -25,7 +25,7 @@ ENVIRONMENT=development
 ```
 ENVIRONMENT=production
 _INCLUDE_BASE=base.env
-_INCLUDE_VAULT=vault://secret/myapp/
+_INCLUDE_VAULT=vault://secret/myapp/production
 ```
 
 `./envy.sh production.env`
@@ -34,7 +34,7 @@ _INCLUDE_VAULT=vault://secret/myapp/
 export ENVIRONMENT=production
 export VERSION=1.0.0
 export NAME=envy.sh
-export SECRET_PASSWORD=GOD
+export SECRET_VAULT_PASSWORD=GOD
 ```
 
 ## Requirements
