@@ -5,9 +5,7 @@ set -euo pipefail
 
 OUTPUT="${2:-bash}"
 
-ENV_NAMESPACE="__ENVY_"
-ENVY_EXPORT_EXISTING_ENV="${ENVY_EXPORT_EXISTING_ENV:-true}"
-
+# Taken from https://github.com/jwerle/mush
 mush () {
   local SELF="$0"
   local NULL=/dev/null
@@ -44,9 +42,6 @@ mush () {
                 val=
                 ;;
             esac
-
-            # Remove namespace for this search
-            key=$(sed "s/^${ENV_NAMESPACE}//" <<< "${key}")
 
             line="${line//${LEFT_DELIM}$key${RIGHT_DELIM}/$val}"
           done
@@ -92,28 +87,23 @@ envy() {
         if grep -q "^_INCLUDE" <<< "${K}"; then
             envy "${V}"
         else
-            # If variable not already set then export
-            EXISTING_VAR=$(printenv "${ENV_NAMESPACE}${K}" || true)
-            if [ -z "${EXISTING_VAR}" ]; then
-                # Check if templating
-                if grep -q "{{.*}}" <<< "${V}"; then
-                    V=$(mush <<< "${V}")
-                fi
-                BASH_ESCAPED_VALUE=$(sed 's/\([$\\ ]\)/\\\1/g' <<< "${V}")
-                eval "export ${ENV_NAMESPACE}${K}=${BASH_ESCAPED_VALUE}"
-                EXISTING_ENV_VAR=$(printenv "${K}" || true)
-                if [ "${OUTPUT}" == "bash" ]; then
-                    if [[ "${ENVY_EXPORT_EXISTING_ENV}" == "true" || -z "${EXISTING_ENV_VAR}" ]]; then
-                        echo "export ${K}=${BASH_ESCAPED_VALUE}"
-                    fi
-                elif [ "${OUTPUT}" == "env-file" ]; then
-                    echo "${PAIR}"
-                elif [ "${OUTPUT}" == "make" ]; then
-                    MAKE_ESCAPED_VALUE=$(sed 's/\([$]\)/$\1/g' <<< "${V}")
-                    MAKE_ESCAPED_VALUE=$(sed 's/\([#\\]\)/\\\1/g' <<< "${MAKE_ESCAPED_VALUE}")
-                    if [[ "${ENVY_EXPORT_EXISTING_ENV}" == "true" || -z "${EXISTING_ENV_VAR}" ]]; then
-                        echo "export ${K}=${MAKE_ESCAPED_VALUE}"
-                    fi
+            # Check if templating
+            if grep -q "{{.*}}" <<< "${V}"; then
+                V=$(mush <<< "${V}")
+            fi
+            BASH_ESCAPED_VALUE=$(sed 's/\([$\\ ]\)/\\\1/g' <<< "${V}")
+            BASH_EXPORT="export ${K}=${BASH_ESCAPED_VALUE}"
+            eval "${BASH_EXPORT}"
+            EXISTING_ENV_VAR=$(printenv "${K}" || true)
+            if [ "${OUTPUT}" == "bash" ]; then
+                echo "${BASH_EXPORT}"
+            elif [ "${OUTPUT}" == "env-file" ]; then
+                echo "${PAIR}"
+            elif [ "${OUTPUT}" == "make" ]; then
+                MAKE_ESCAPED_VALUE=$(sed 's/\([$]\)/$\1/g' <<< "${V}")
+                MAKE_ESCAPED_VALUE=$(sed 's/\([#\\]\)/\\\1/g' <<< "${MAKE_ESCAPED_VALUE}")
+                if [[ "${ENVY_EXPORT_EXISTING_ENV}" == "true" || -z "${EXISTING_ENV_VAR}" ]]; then
+                    echo "export ${K}=${MAKE_ESCAPED_VALUE}"
                 fi
             fi
         fi
