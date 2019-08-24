@@ -87,30 +87,6 @@ export CONFIG ?= .env
 $(foreach var,$(shell ./envy.sh $(CONFIG) make),$(eval $(var)))
 ```
 
-## Options
-
-Options are set via environment variables eg.
-
-```
-OPTION=true ./envy.sh ...
-```
-
-or
-
-```
-export OPTION=true
-./envy.sh ...
-```
-
-### ENVY_EXPORT_EXISTING_ENV
-
-Export variables if already set in the environment (only bash/make output). Setting to false allows environment variables to take precidence.
-
-Options: true, false
-
-Default: true
-
-
 ## Supported Inputs
 
 ### env-file
@@ -171,8 +147,9 @@ ENVIRONMENT=development
 
 ## Variable Precedence
 
-- Existing environment variables will be overridden, unless `ENVY_EXPORT_EXISTING_ENV` is set to false
-- Includes will override variables which are declared afterwards, if you have a shared common.env include add it to the bottom of your file so preceding variables can override its contents
+- Variables are processed top to bottom and envy will only output a variable the first time it is encountered, thus the higher in the file, the higher priority
+- Includes will be evaluated in the line they are written. If you have a shared common.env you can include it at the bottom of your file so preceding variables can override its contents
+- Existing environment variables will be overridden by the export command in bash or make output, you can stop the export by running `export ENVY_EXPORT_EXISTING_ENV=false` effectively making existing environment variables the highest priority
 
 ## Changelog
 
