@@ -109,9 +109,16 @@ export RELATIVE=relative'
 @test "Given existing environment variables, should be overridden" {
   export VERSION=2.0.0
   result="$(../envy.sh basic.env)"
-  expected='export VERSION=1.0.0
-export ENVIRONMENT=development'
+  expected='export ENVIRONMENT=development
+export VERSION=1.0.0'
 
   assert_equal "${result}" "${expected}"
 }
 
+@test "Given env-file input with templating and environment variable, should be evaluated" {
+  export APP_VERSION=1.0.0
+  result="$(../envy.sh templating-env.env)"
+  expected='export VERSION=1.0.0'
+
+  assert_equal "${result}" "${expected}"
+}
