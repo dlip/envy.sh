@@ -160,7 +160,7 @@ To write a literal `{{`, escape it by putting it between curly braces `{{{{}}`
 
 - Variables are processed top to bottom and lower varibles will overrite previous ones
 - Includes will be evaluated in the line they are written. If you have a shared common.env you can include it at the top of your file so following variables can override its values
-- Output will be sorted alphabetically at the end after the above evaluations
+- Output will be sorted alphabetically at the end after the above evaluations for consistency
 
 ## Changelog
 
