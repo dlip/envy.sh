@@ -154,6 +154,8 @@ VERSION=1.0.0
 NAME=envy-{{VERSION}}
 ```
 
+To write a literal `{{`, escape it by putting it between curly braces `{{{{}}`
+
 ## Variable Precedence
 
 - Variables are processed top to bottom and lower varibles will overrite previous ones
