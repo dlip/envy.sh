@@ -16,7 +16,6 @@ mush () {
   local LEFT_DELIM="{{"
   local RIGHT_DELIM="}}"
   local INDENT_LEVEL="  "
-  local ESCAPE=0
   local ENV="`env`"
   local out=">&$STDOUT"
 
@@ -47,13 +46,6 @@ mush () {
             line="${line//${LEFT_DELIM}$key${RIGHT_DELIM}/$val}"
           done
 
-          if [ "1" = "$ESCAPE" ]; then
-            line="${line//&/&amp;}"
-            line="${line//\"/&quot;}"
-            line="${line//\</&lt;}"
-            line="${line//\>/&gt;}"
-          fi
-
           ## output to stdout
           echo "$line" | {
             ## parse undefined variables
@@ -66,6 +58,10 @@ mush () {
         }
     };
   done
+}
+
+bash_escape() {
+    sed 's/\([$\\"'\''/ ]\)/\\\1/g' <<< "${1}"
 }
 
 process_input() {
@@ -92,9 +88,8 @@ process_input() {
         if grep -q "^_INCLUDE" <<< "${K}"; then
             process_input "${V}"
         else
-            export ${K}="${V}"
+            export ${K}="$(bash_escape "${V}")"
             export ${ENVY_NAMESPACE}${K}="${V}"
-         
         fi
     done <<< "${CONTENTS}"
     if [ "${IS_LOCAL_FILE}" == "true" ]; then
@@ -107,8 +102,7 @@ process_output() {
     while read -r K; do
         V=$(printenv "${ENVY_NAMESPACE}${K}")
         if [ "${OUTPUT}" == "bash" ]; then
-            BASH_ESCAPED_VALUE=$(sed 's/\([$\\ ]\)/\\\1/g' <<< "${V}")
-            echo "export ${K}=${BASH_ESCAPED_VALUE}"
+            echo "export ${K}=$(bash_escape "${V}")"
         elif [ "${OUTPUT}" == "env-file" ]; then
             echo "${K}=${V}"
         elif [ "${OUTPUT}" == "make" ]; then
