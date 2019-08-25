@@ -6,35 +6,35 @@ Stylish environment variable loading
 
 ## Features
 
-- Include variables from other files/inputs
-- Multiple input types including vault which allows you keeps secrets only in memory for better security
-- Variable precedence allows logical overriding of common settings
+- Import other files
+- Import Vault secrets
+- Templating
 
 ## Example
 
 `cat base.env`
 
 ```
+ENVIRONMENT=development
 VERSION=1.0.0
 NAME=envy.sh
-ENVIRONMENT=development
 ```
 
-`cat production.env`
+`cat deploy.env`
 
 ```
-ENVIRONMENT=production
 _INCLUDE_BASE=base.env
-_INCLUDE_VAULT=vault://secret/myapp/production
+_INCLUDE_VAULT=vault://secret/myapp/{{DEPLOY_ENVIRONMENT}}
+ENVIRONMENT={{DEPLOY_ENVIRONMENT}}
 ```
 
-`./envy.sh production.env`
+`DEPLOY_ENVIRONMENT=production ./envy.sh deploy.env`
 
 ```
 export ENVIRONMENT=production
-export VERSION=1.0.0
 export NAME=envy.sh
 export SECRET_VAULT_PASSWORD=GOD
+export VERSION=1.0.0
 ```
 
 ## Requirements
@@ -115,9 +115,9 @@ URI eg. `vault://secret/myapp/secrets` with data in key value format:
 ### bash (default)
 
 ```
-export VERSION=v1.0.0
 export ENVIRONMENT=development
 export LOG_FILE=C:\\log.txt
+export VERSION=v1.0.0
 ```
 
 ### make
@@ -130,8 +130,8 @@ export PASSWORD=$$\\\#GOD\#/$$
 ### env-file
 
 ```
-VERSION=v1.0.0
 ENVIRONMENT=development
+VERSION=v1.0.0
 ```
 
 ## Includes
@@ -145,17 +145,27 @@ VERSION=v1.0.0
 ENVIRONMENT=development
 ```
 
+## Templating
+
+Variables can by templated by using curly braces "`{{`" and "`}}`", in this example `envy-{{VERSION}}` is replaced with `envy-1.0.0`
+
+```
+VERSION=1.0.0
+NAME=envy-{{VERSION}}
+```
+
 ## Variable Precedence
 
-- Variables are processed top to bottom and envy will only output a variable the first time it is encountered, thus the higher in the file, the higher priority
-- Includes will be evaluated in the line they are written. If you have a shared common.env you can include it at the bottom of your file so preceding variables can override its contents
-- Existing environment variables will be overridden by the export command in bash or make output, you can stop the export by running `export ENVY_EXPORT_EXISTING_ENV=false` effectively making existing environment variables the highest priority
+- Variables are processed top to bottom and lower varibles will overrite previous ones
+- Includes will be evaluated in the line they are written. If you have a shared common.env you can include it at the top of your file so following variables can override its values
+- Output will be sorted alphabetically at the end after the above evaluations
 
 ## Changelog
 
-### [v1.2.0 (2019-08-23)](https://github.com/dlip/envy.sh/releases/tag/v1.2.0)
+### [v1.2.0 (2019-08-25)](https://github.com/dlip/envy.sh/releases/tag/v1.2.0)
 
-- Optionally override environment variables
+- Templating
+- Reverse priority logic
 
 ### [v1.1.2 (2019-08-22)](https://github.com/dlip/envy.sh/releases/tag/v1.1.2)
 
@@ -175,7 +185,6 @@ ENVIRONMENT=development
 
 ## Todo
 
-- [ ] Variable substitution {{ }} ?
 - [ ] Consider how to prioritise includes with json
 - [ ] Vault testing
 - [ ] Consul input

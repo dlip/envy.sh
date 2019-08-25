@@ -85,13 +85,13 @@ process_input() {
     while read -r PAIR; do
         K=$(sed 's/\([^=]*\)=\(.*\)/\1/' <<< "${PAIR}")
         V=$(sed 's/\([^=]*\)=\(.*\)/\2/' <<< "${PAIR}")
+        # Check if templating
+        if grep -q "{{.*}}" <<< "${V}"; then
+            V=$(mush <<< "${V}")
+        fi
         if grep -q "^_INCLUDE" <<< "${K}"; then
             process_input "${V}"
         else
-            # Check if templating
-            if grep -q "{{.*}}" <<< "${V}"; then
-                V=$(mush <<< "${V}")
-            fi
             export ${K}="${V}"
             export ${ENVY_NAMESPACE}${K}="${V}"
          

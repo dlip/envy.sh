@@ -122,3 +122,12 @@ export VERSION=1.0.0'
 
   assert_equal "${result}" "${expected}"
 }
+
+@test "Given include with tempating, should be evaluated before including" {
+  result="$(../envy.sh include-templating.env)"
+  expected='export BASIC=basic.env
+export ENVIRONMENT=development
+export VERSION=1.0.0'
+
+  assert_equal "${result}" "${expected}"
+}
