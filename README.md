@@ -191,3 +191,7 @@ To write a literal `{{`, escape it by putting it between curly braces `{{{{}}`
 - [ ] Vault testing
 - [ ] Consul input
 - [ ] docker-env-args output
+
+## Licence
+
+MIT Licence. See [LICENCE](LICENCE) for details
