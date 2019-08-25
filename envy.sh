@@ -103,20 +103,18 @@ process_input() {
 }
 
 process_output() {
-    ENVY_ENV=$(env | grep "^${ENVY_NAMESPACE}" | sed "s/^${ENVY_NAMESPACE}\([^=]*\)=.*/\1/")
+    ENVY_ENV=$(env | sort | grep "^${ENVY_NAMESPACE}" | sed "s/^${ENVY_NAMESPACE}\([^=]*\)=.*/\1/")
     while read -r K; do
         V=$(printenv "${ENVY_NAMESPACE}${K}")
         if [ "${OUTPUT}" == "bash" ]; then
             BASH_ESCAPED_VALUE=$(sed 's/\([$\\ ]\)/\\\1/g' <<< "${V}")
             echo "export ${K}=${BASH_ESCAPED_VALUE}"
         elif [ "${OUTPUT}" == "env-file" ]; then
-            echo "${PAIR}"
+            echo "${K}=${V}"
         elif [ "${OUTPUT}" == "make" ]; then
             MAKE_ESCAPED_VALUE=$(sed 's/\([$]\)/$\1/g' <<< "${V}")
             MAKE_ESCAPED_VALUE=$(sed 's/\([#\\]\)/\\\1/g' <<< "${MAKE_ESCAPED_VALUE}")
-            if [[ "${ENVY_EXPORT_EXISTING_ENV}" == "true" || -z "${EXISTING_ENV_VAR}" ]]; then
-                echo "export ${K}=${MAKE_ESCAPED_VALUE}"
-            fi
+            echo "export ${K}=${MAKE_ESCAPED_VALUE}"
         fi
     done <<< "${ENVY_ENV}"
 }
