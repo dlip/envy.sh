@@ -109,6 +109,9 @@ process_output() {
             MAKE_ESCAPED_VALUE=$(sed 's/\([$]\)/$\1/g' <<< "${V}")
             MAKE_ESCAPED_VALUE=$(sed 's/\([#\\]\)/\\\1/g' <<< "${MAKE_ESCAPED_VALUE}")
             echo "export ${K}=${MAKE_ESCAPED_VALUE}"
+        else
+            echo "Unknown output format '${OUTPUT}'"
+            exit 1
         fi
     done <<< "${ENVY_ENV}"
 }
