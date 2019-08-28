@@ -79,8 +79,8 @@ process_input() {
         CONTENTS=$(cat "${FILENAME}" | grep "^[^#]")
     fi
     while read -r PAIR; do
-        K=$(sed 's/\([^=]*\)=\(.*\)/\1/' <<< "${PAIR}")
-        V=$(sed 's/\([^=]*\)=\(.*\)/\2/' <<< "${PAIR}")
+        K=${PAIR%%"="*}
+        V=${PAIR#*"="*}
         # Check if templating
         if grep -q "{{.*}}" <<< "${V}"; then
             V=$(mush <<< "${V}")

@@ -77,14 +77,14 @@ export VERSION=1.0.0'
 
 @test "Given value with special characters and bash output, should escape correctly" {
   result="$(../envy.sh escape.env)"
-  expected='export PASSWORD=\$\\#GOD#\'\''\"\ \/\$'
+  expected='export PASSWORD=\$\\#GOD#\'\''\"\ =\/\$'
 
   assert_equal "${result}" "${expected}"
 }
 
 @test "Given value with special characters and make output, should escape correctly" {
   result="$(../envy.sh escape.env make)"
-  expected='export PASSWORD=$$\\\#GOD\#'\''" /$$'
+  expected='export PASSWORD=$$\\\#GOD\#'\''" =/$$'
 
   assert_equal "${result}" "${expected}"
 }
@@ -135,8 +135,8 @@ export VERSION=1.0.0'
 
 @test "Given value templated value with special characters and bash output, should escape correctly" {
   result="$(../envy.sh templating-escape.env)"
-  expected='export PASSWORD=\$\\#GOD#\'\''\"\ \/\$
-export TEMPLATED_PASSWORD=templated-\$\\#GOD#\'\''\"\ \/\$'
+  expected='export PASSWORD=\$\\#GOD#\'\''\"\ =\/\$
+export TEMPLATED_PASSWORD=templated-\$\\#GOD#\'\''\"\ =\/\$'
 
   assert_equal "${result}" "${expected}"
 }
