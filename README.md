@@ -164,7 +164,7 @@ To write a literal `{{`, escape it by putting it between curly braces `{{{{}}`
 
 ## Changelog
 
-### [v2.0.0 (2019-08-25)](https://github.com/dlip/envy.sh/releases/tag/v2.0.0)
+### [v2.0.0 (2019-08-28)](https://github.com/dlip/envy.sh/releases/tag/v2.0.0)
 
 - Templating
 - Reverse priority logic
