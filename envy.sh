@@ -27,7 +27,7 @@ template () {
                     # Check for escaping
                     if [ "${VAR}" == "{{" ]; then
                         RESULT+="{{"
-                    # Check for no variable, assume to a template
+                    # Check for no variable, assume not a template
                     elif [ "${VAR}" == "" ]; then
                         RESULT+="{{}}"
                     else
