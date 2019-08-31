@@ -164,10 +164,10 @@ To write a literal `{{`, escape it by putting it between curly braces `{{{{}}`
 
 ## Changelog
 
-### [v2.1.0 (2019-08-31)](https://github.com/dlip/envy.sh/releases/tag/v2.1.0)
+### [v2.0.1 (2019-08-31)](https://github.com/dlip/envy.sh/releases/tag/v2.0.1)
 
 - Rewrite templating to be more efficient
-- Throw error when template variable not set
+- Bugfix: Throw error when template variable not set
 
 ### [v2.0.0 (2019-08-28)](https://github.com/dlip/envy.sh/releases/tag/v2.0.0)
 
