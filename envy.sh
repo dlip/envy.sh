@@ -12,24 +12,26 @@ template () {
 
     # Read input char by char
     while read -n1 CHAR; do
-        # Check if seen {{
+        # If found {{
         if [[ "${CHAR}" == "{" && "${LAST_CHAR}" == "{" ]]; then
+            # Remove extra {
+            RESULT="${RESULT::-1}"
             local VAR_RESULT=""
             local VAR_LAST_CHAR=""
+            local VAR_FOUND=false
             # Search for }}
             while read -n1 VAR_CHAR; do
-                # Check if seen }}
+                # If found }}
                 if [[ "${VAR_CHAR}" == "}" && "${VAR_LAST_CHAR}" == "}" ]]; then
-                    # Remove extra {
-                    RESULT="${RESULT::-1}"
+                    VAR_FOUND=true
                     # Remove extra }
                     VAR="${VAR_RESULT::-1}"
                     # Check for escaping
                     if [ "${VAR}" == "{{" ]; then
-                        RESULT+="{{"
+                        VAR_RESULT="{{"
                     # Check for no variable, assume not a template
                     elif [ "${VAR}" == "" ]; then
-                        RESULT+="{{}}"
+                        VAR_RESULT="{{}}"
                     else
                         # Lookup value
                         V=$(printenv "${VAR}")
@@ -38,21 +40,30 @@ template () {
                             echo "Error while parsing tempate, ${VAR} not set" >&2
                             exit 1
                         fi
-                        RESULT+="${V}"
+                        VAR_RESULT="${V}"
                     fi
                     break
+                # If find another {{ assume this is not a template and continue on to the next pair
+                elif [[ "${VAR_CHAR}" == "{" && "${VAR_LAST_CHAR}" == "{" ]]; then
+                    RESULT+="{{${VAR_RESULT::-1}"
+                    VAR_RESULT=""
                 else
                     VAR_RESULT+="${VAR_CHAR}"
                 fi
                 VAR_LAST_CHAR="${VAR_CHAR}"
             done
+            # If VAR never found, add back the open {{
+            if [ "${VAR_FOUND}" == "false" ]; then
+                RESULT+="{{"
+            fi
+            RESULT+="${VAR_RESULT}"
         else
             RESULT+="${CHAR}"
         fi
         LAST_CHAR="${CHAR}"
     done
 
-    echo ${RESULT}
+    echo "${RESULT}"
 }
 
 bash_escape() {

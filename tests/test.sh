@@ -118,12 +118,16 @@ export VERSION=1.0.0'
 @test "Given env-file input with templating, should be evaluated" {
   export VERSION=1.0.0
   result="$(../envy.sh templating.env)"
-  expected='export NOT_TEMPLATE=envy-{{}}-pro
+  expected='export DOUBLE=envy-1.0.0-pro
+export DOUBLE_NO_CLOSE=envy-{{VERSION-pro
+export DOUBLE_OPEN={{NAME-1.0.0-pro
+export NAME=envy
+export NOT_TEMPLATE=envy-{{}}-pro
 export NO_CLOSE_END=envy-{{
 export NO_CLOSE_MIDDLE=envy-{{-pro
 export NO_CLOSE_START={{-envy
 export VAR_END=envy-1.0.0
-export VAR_ESCAPE=envy-{{-pro
+export VAR_ESCAPE=envy-{{{{}}-pro
 export VAR_MIDDLE=envy-1.0.0-pro
 export VAR_START=1.0.0-pro
 export VERSION=1.0.0'
