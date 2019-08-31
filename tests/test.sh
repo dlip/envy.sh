@@ -115,10 +115,26 @@ export VERSION=1.0.0'
   assert_equal "${result}" "${expected}"
 }
 
+@test "Given env-file input with templating, should be evaluated" {
+  export VERSION=1.0.0
+  result="$(../envy.sh templating.env)"
+  expected='export NOT_TEMPLATE=envy-{{}}-pro
+export NO_CLOSE_END=envy-{{
+export NO_CLOSE_MIDDLE=envy-{{-pro
+export NO_CLOSE_START={{-envy
+export VAR_END=envy-1.0.0
+export VAR_ESCAPE=envy-{{-pro
+export VAR_MIDDLE=envy-1.0.0-pro
+export VAR_START=1.0.0-pro
+export VERSION=1.0.0'
+
+  assert_equal "${result}" "${expected}"
+}
+
 @test "Given env-file input with templating and environment variable, should be evaluated" {
-  export APP_VERSION=1.0.0
+  export VERSION=1.0.0
   result="$(../envy.sh templating-env.env)"
-  expected='export VERSION=1.0.0'
+  expected='export NAME=envy-1.0.0'
 
   assert_equal "${result}" "${expected}"
 }
@@ -133,10 +149,15 @@ export VERSION=1.0.0'
 }
 
 
-@test "Given value templated value with special characters and bash output, should escape correctly" {
+@test "Given templated value with special characters and bash output, should escape correctly" {
   result="$(../envy.sh templating-escape.env)"
   expected='export PASSWORD=\$\\#GOD#\'\''\"\ =\/\$
 export TEMPLATED_PASSWORD=templated-\$\\#GOD#\'\''\"\ =\/\$'
 
   assert_equal "${result}" "${expected}"
+}
+
+@test "Given templated value and non-existant variable, should throw error" {
+  run ../envy.sh templating-error.env
+  assert_failure
 }
