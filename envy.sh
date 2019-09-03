@@ -6,58 +6,64 @@ set -euo pipefail
 OUTPUT="${2:-bash}"
 ENVY_NAMESPACE="__ENVY_"
 
-# Taken from https://github.com/jwerle/mush
-mush () {
-  local SELF="$0"
-  local NULL=/dev/null
-  local STDIN=0
-  local STDOUT=1
-  local STDERR=2
-  local LEFT_DELIM="{{"
-  local RIGHT_DELIM="}}"
-  local INDENT_LEVEL="  "
-  local ENV="`env`"
-  local out=">&$STDOUT"
+template () {
+    local RESULT=""
+    local LAST_CHAR=""
 
-  ## read each line
-  while IFS= read -r line; do
-    printf '%q\n' "${line}" | {
-        ## read each ENV variable
-        echo "$ENV" | {
-          while read var; do
-            ## split each ENV variable by '='
-            ## and parse the line replacing
-            ## occurrence of the key with
-            ## guarded by the values of
-            ## `LEFT_DELIM' and `RIGHT_DELIM'
-            ## with the value of the variable
-            case "$var" in
-              (*"="*)
-                key=${var%%"="*}
-                val=${var#*"="*}
-                ;;
+    # Read input char by char
+    while read -n1 CHAR; do
+        # If found {{
+        if [[ "${CHAR}" == "{" && "${LAST_CHAR}" == "{" ]]; then
+            # Remove extra {
+            RESULT="${RESULT::-1}"
+            local VAR_RESULT=""
+            local VAR_LAST_CHAR=""
+            local VAR_FOUND=false
+            # Search for }}
+            while read -n1 VAR_CHAR; do
+                # If found }}
+                if [[ "${VAR_CHAR}" == "}" && "${VAR_LAST_CHAR}" == "}" ]]; then
+                    VAR_FOUND=true
+                    # Remove extra }
+                    VAR="${VAR_RESULT::-1}"
+                    # Check for no variable, assume not a template
+                    if [ "${VAR}" == "" ]; then
+                        VAR_RESULT="{{}}"
+                    # Check for escaping
+                    elif [[ "${VAR:0:1}" == '\' ]]; then
+                        VAR_RESULT="{{${VAR:1}}}"
+                    else
+                        # Lookup value
+                        V=$(printenv "${VAR}")
+                        # Throw error if not set
+                        if [ -z "${V}" ]; then
+                            echo "Error while parsing tempate, ${VAR} not set" >&2
+                            exit 1
+                        fi
+                        VAR_RESULT="${V}"
+                    fi
+                    break
+                # If find another {{ assume this is not a template and continue on to the next pair
+                elif [[ "${VAR_CHAR}" == "{" && "${VAR_LAST_CHAR}" == "{" ]]; then
+                    RESULT+="{{${VAR_RESULT::-1}"
+                    VAR_RESULT=""
+                else
+                    VAR_RESULT+="${VAR_CHAR}"
+                fi
+                VAR_LAST_CHAR="${VAR_CHAR}"
+            done
+            # If VAR never found, add back the open {{
+            if [ "${VAR_FOUND}" == "false" ]; then
+                RESULT+="{{"
+            fi
+            RESULT+="${VAR_RESULT}"
+        else
+            RESULT+="${CHAR}"
+        fi
+        LAST_CHAR="${CHAR}"
+    done
 
-              (*)
-                key=$var
-                val=
-                ;;
-            esac
-
-            line="${line//${LEFT_DELIM}$key${RIGHT_DELIM}/$val}"
-          done
-
-          ## output to stdout
-          echo "$line" | {
-            ## parse undefined variables
-            sed -e "s#${LEFT_DELIM}[A-Za-z]*${RIGHT_DELIM}##g" | \
-            ## parse comments
-            sed -e "s#${LEFT_DELIM}\!.*${RIGHT_DELIM}##g" | \
-            ## escaping
-            sed -e 's/\\\"/""/g'
-          };
-        }
-    };
-  done
+    echo "${RESULT}"
 }
 
 bash_escape() {
@@ -81,14 +87,11 @@ process_input() {
     while read -r PAIR; do
         K=${PAIR%%"="*}
         V=${PAIR#*"="*}
-        # Check if templating
-        if grep -q "{{.*}}" <<< "${V}"; then
-            V=$(mush <<< "${V}")
-        fi
+        V=$(template <<< $(bash_escape "${V}"))
         if grep -q "^_INCLUDE" <<< "${K}"; then
             process_input "${V}"
         else
-            export ${K}="$(bash_escape "${V}")"
+            export ${K}="${V}"
             export ${ENVY_NAMESPACE}${K}="${V}"
         fi
     done <<< "${CONTENTS}"
@@ -120,7 +123,7 @@ if [ -n "${1:-}" ]; then
     process_input "${1}"
     process_output
 else
-    echo "envy.sh v2.0.0"
+    echo "envy.sh v2.0.1"
     echo "Usage: envy.sh input [output-format]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"
