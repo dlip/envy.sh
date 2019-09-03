@@ -26,12 +26,12 @@ template () {
                     VAR_FOUND=true
                     # Remove extra }
                     VAR="${VAR_RESULT::-1}"
-                    # Check for escaping
-                    if [ "${VAR}" == "{{" ]; then
-                        VAR_RESULT="{{"
                     # Check for no variable, assume not a template
-                    elif [ "${VAR}" == "" ]; then
+                    if [ "${VAR}" == "" ]; then
                         VAR_RESULT="{{}}"
+                    # Check for escaping
+                    elif [[ "${VAR:0:1}" == '\' ]]; then
+                        VAR_RESULT="{{${VAR:1}}}"
                     else
                         # Lookup value
                         V=$(printenv "${VAR}")
@@ -87,10 +87,7 @@ process_input() {
     while read -r PAIR; do
         K=${PAIR%%"="*}
         V=${PAIR#*"="*}
-        # Check if templating
-        if grep -q "{{.*}}" <<< "${V}"; then
-            V=$(template <<< "${V}")
-        fi
+        V=$(template <<< $(bash_escape "${V}"))
         if grep -q "^_INCLUDE" <<< "${K}"; then
             process_input "${V}"
         else

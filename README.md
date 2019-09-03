@@ -154,7 +154,7 @@ VERSION=1.0.0
 NAME=envy-{{VERSION}}
 ```
 
-To write a literal `{{`, escape it by putting it between curly braces `{{{{}}`
+To write a literal `{{VERSION}}`, escape it with a backslash i.e. `{{\VERSION}}`
 
 ## Variable Precedence
 
@@ -164,7 +164,7 @@ To write a literal `{{`, escape it by putting it between curly braces `{{{{}}`
 
 ## Changelog
 
-### [v2.0.1 (2019-08-31)](https://github.com/dlip/envy.sh/releases/tag/v2.0.1)
+### [v2.0.1 (2019-09-03)](https://github.com/dlip/envy.sh/releases/tag/v2.0.1)
 
 - Rewrite templating to be more efficient
 - Bugfix: Throw error when template variable not set
