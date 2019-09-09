@@ -3,8 +3,9 @@
 
 set -euo pipefail
 
-OUTPUT="${2:-bash}"
 ENVY_NAMESPACE="__ENVY_"
+OUTPUT_FORMAT="${2:-bash}"
+OUTPUT="${3:-/dev/stdout}"
 
 template () {
     local RESULT=""
@@ -101,19 +102,23 @@ process_input() {
 }
 
 process_output() {
+    if [ "${OUTPUT}" != "/dev/stdout" ]; then
+			rm -f "${OUTPUT}"
+    fi
+
     ENVY_ENV=$(env | sort | grep "^${ENVY_NAMESPACE}" | sed "s/^${ENVY_NAMESPACE}\([^=]*\)=.*/\1/")
     while read -r K; do
         V=$(printenv "${ENVY_NAMESPACE}${K}")
-        if [ "${OUTPUT}" == "bash" ]; then
-            echo "export ${K}=$(bash_escape "${V}")"
-        elif [ "${OUTPUT}" == "env-file" ]; then
-            echo "${K}=${V}"
-        elif [ "${OUTPUT}" == "make" ]; then
+        if [ "${OUTPUT_FORMAT}" == "bash" ]; then
+            echo "export ${K}=$(bash_escape "${V}")" >> $OUTPUT
+        elif [ "${OUTPUT_FORMAT}" == "env-file" ]; then
+            echo "${K}=${V}" >> $OUTPUT
+        elif [ "${OUTPUT_FORMAT}" == "make" ]; then
             MAKE_ESCAPED_VALUE=$(sed 's/\([$]\)/$\1/g' <<< "${V}")
             MAKE_ESCAPED_VALUE=$(sed 's/\([#\\]\)/\\\1/g' <<< "${MAKE_ESCAPED_VALUE}")
-            echo "export ${K}=${MAKE_ESCAPED_VALUE}"
+            echo "export ${K}=${MAKE_ESCAPED_VALUE}" >> $OUTPUT
         else
-            echo "Unknown output format '${OUTPUT}'"
+            echo "Unknown output format '${OUTPUT_FORMAT}'"
             exit 1
         fi
     done <<< "${ENVY_ENV}"
@@ -123,9 +128,10 @@ if [ -n "${1:-}" ]; then
     process_input "${1}"
     process_output
 else
-    echo "envy.sh v2.0.1"
-    echo "Usage: envy.sh input [output-format]"
+    echo "envy.sh v2.1.0"
+    echo "Usage: envy.sh input [output-format] [output-file]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"
     echo "See project for details: https://github.com/dlip/envy.sh"
 fi
+

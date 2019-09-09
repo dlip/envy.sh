@@ -2,6 +2,14 @@
 
 load '/usr/local/lib/bats/load.bash'
 
+
+TEST_FILE1=test-out.env
+TEST_FILE2=test-out2.env
+teardown() {
+	rm -f "${TEST_FILE1}"
+	rm -f "${TEST_FILE2}"
+}
+
 @test "Given env-file input and bash output, should output variables with export prefix" {
   result="$(../envy.sh basic.env)"
   expected='export ENVIRONMENT=development
@@ -165,3 +173,22 @@ export TEMPLATED_PASSWORD=templated-\$\\#GOD#\'\''\"\ =\/\$'
   run ../envy.sh templating-error.env
   assert_failure
 }
+
+@test "Given output file, should write to file" {
+  ../envy.sh basic.env env-file test-out.env
+  result="$(cat test-out.env)"
+  expected='ENVIRONMENT=development
+VERSION=1.0.0'
+
+  assert_equal "${result}" "${expected}"
+}
+
+@test "Given output file and run twice, should overwrite the first file" {
+  ../envy.sh basic.env env-file test-out.env
+  ../envy.sh name.env env-file test-out.env
+  result="$(cat test-out.env)"
+  expected='NAME=envy'
+
+  assert_equal "${result}" "${expected}"
+}
+

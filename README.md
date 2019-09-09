@@ -40,7 +40,7 @@ export VERSION=1.0.0
 ## Requirements
 
 - bash
-- If using vault: 
+- If using vault:
     - [vault](https://www.vaultproject.io/docs/install/)
     - [jq](https://github.com/stedolan/jq)
 - Alternatively you can use the [docker](https://docs.docker.com/install/) [image](https://cloud.docker.com/u/dlip/repository/docker/dlip/envy.sh) which contains all the dependencies. To create an alias called `envy.sh` run:
@@ -60,13 +60,13 @@ chmod +x ./envy.sh
 ### basic
 
 ```
-./envy.sh input [output-format]
+./envy.sh input [output-format] [output-file]
 ```
 
 - [Supported Inputs](#supported-inputs)
 - [Supported Ouput Formats](#supported-output-formats)
 
-### bash 
+### bash
 
 Import environment variables to current shell
 
@@ -82,9 +82,20 @@ bash -c 'eval $(bin/envy.sh .env) && env'
 
 ### make
 
+You can use the following to create a .envy.mk file and include it in your Makefile. Also add `.envy.mk` to your `.gitignore` file. Note: the dependency on `$(CONFIG)` here is quite simplistic so if your `.env` has any includes that change, you will need to run `make clean` to recreate the file.
+
 ```
 export CONFIG ?= .env
-$(foreach var,$(shell ./envy.sh $(CONFIG) make),$(eval $(var)))
+
+ENVY_MK := .envy.mk
+$(ENVY_MK): $(CONFIG)
+	envy.sh $(CONFIG) make $@
+
+-include $(ENVY_MK)
+
+.PHONY: clean
+clean:
+	-rm -f $(ENVY_MK)
 ```
 
 ## Supported Inputs
@@ -164,6 +175,10 @@ To write a literal `{{VERSION}}`, escape it with a backslash i.e. `{{\VERSION}}`
 
 ## Changelog
 
+### [v2.1.0 (2019-09-09)](https://github.com/dlip/envy.sh/releases/tag/v2.1.0)
+
+- Add argument to output to a file to help with Makefile includes
+
 ### [v2.0.1 (2019-09-03)](https://github.com/dlip/envy.sh/releases/tag/v2.0.1)
 
 - Rewrite templating to be more efficient
@@ -200,3 +215,4 @@ To write a literal `{{VERSION}}`, escape it with a backslash i.e. `{{\VERSION}}`
 ## Licence
 
 MIT Licence. See [LICENCE](LICENCE) for details
+
