@@ -103,7 +103,7 @@ process_input() {
 
 process_output() {
     if [ "${OUTPUT}" != "/dev/stdout" ]; then
-			rm -f "${OUTPUT}"
+        rm -f "${OUTPUT}"
     fi
 
     ENVY_ENV=$(env | sort | grep "^${ENVY_NAMESPACE}" | sed "s/^${ENVY_NAMESPACE}\([^=]*\)=.*/\1/")

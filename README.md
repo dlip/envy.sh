@@ -82,7 +82,7 @@ bash -c 'eval $(bin/envy.sh .env) && env'
 
 ### make
 
-You can use the following to create a .envy.mk file and include it in your Makefile. Also add `.envy.mk` to your `.gitignore` file. Note: the dependency on `$(CONFIG)` here is quite simplistic so if your `.env` has any includes that change, you will need to run `make clean` to recreate the file.
+You can use the following to create a `.envy.mk` file and include it in your Makefile. Also add `.envy.mk` to your `.gitignore` file. Note: the dependency on `$(CONFIG)` here is quite simplistic so if your `.env` has any includes that change, you will need to run `make clean` to recreate the file.
 
 ```
 export CONFIG ?= .env
