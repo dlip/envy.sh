@@ -175,6 +175,10 @@ To write a literal `{{VERSION}}`, escape it with a backslash i.e. `{{\VERSION}}`
 
 ## Changelog
 
+### [v2.1.1 (2019-09-10)](https://github.com/dlip/envy.sh/releases/tag/v2.1.1)
+
+- Bugfix change make variables to be the simply expanded type
+
 ### [v2.1.0 (2019-09-09)](https://github.com/dlip/envy.sh/releases/tag/v2.1.0)
 
 - Add argument to output to a file to help with Makefile includes
