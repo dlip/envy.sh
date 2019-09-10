@@ -42,10 +42,18 @@ export B=second'
   assert_equal "${result}" "${expected}"
 }
 
-@test "Given env-file input and env-file output, should output variables without export prefix" {
+@test "Given env-file input and env-file output, should output variables with env-file syntax" {
   result="$(../envy.sh basic.env env-file)"
   expected='ENVIRONMENT=development
 VERSION=1.0.0'
+
+  assert_equal "${result}" "${expected}"
+}
+
+@test "Given env-file input and make output, should output variables with make syntax" {
+  result="$(../envy.sh basic.env make)"
+  expected='export ENVIRONMENT:=development
+export VERSION:=1.0.0'
 
   assert_equal "${result}" "${expected}"
 }
@@ -92,7 +100,7 @@ export VERSION=1.0.0'
 
 @test "Given value with special characters and make output, should escape correctly" {
   result="$(../envy.sh escape.env make)"
-  expected='export PASSWORD=$$\\\#GOD\#'\''" =/$$'
+  expected='export PASSWORD:=$$\\\#GOD\#'\''" =/$$'
 
   assert_equal "${result}" "${expected}"
 }
