@@ -16,7 +16,7 @@ template () {
         # If found {{
         if [[ "${CHAR}" == "{" && "${LAST_CHAR}" == "{" ]]; then
             # Remove extra {
-            RESULT="${RESULT::-1}"
+            RESULT="${RESULT%?}"
             local VAR_RESULT=""
             local VAR_LAST_CHAR=""
             local VAR_FOUND=false
@@ -26,7 +26,7 @@ template () {
                 if [[ "${VAR_CHAR}" == "}" && "${VAR_LAST_CHAR}" == "}" ]]; then
                     VAR_FOUND=true
                     # Remove extra }
-                    VAR="${VAR_RESULT::-1}"
+                    VAR="${VAR_RESULT%?}"
                     # Check for no variable, assume not a template
                     if [ "${VAR}" == "" ]; then
                         VAR_RESULT="{{}}"
@@ -46,7 +46,7 @@ template () {
                     break
                 # If find another {{ assume this is not a template and continue on to the next pair
                 elif [[ "${VAR_CHAR}" == "{" && "${VAR_LAST_CHAR}" == "{" ]]; then
-                    RESULT+="{{${VAR_RESULT::-1}"
+                    RESULT+="{{${VAR_RESULT%?}"
                     VAR_RESULT=""
                 else
                     VAR_RESULT+="${VAR_CHAR}"
@@ -128,7 +128,7 @@ if [ -n "${1:-}" ]; then
     process_input "${1}"
     process_output
 else
-    echo "envy.sh v2.1.1"
+    echo "envy.sh v2.1.2"
     echo "Usage: envy.sh input [output-format] [output-file]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"

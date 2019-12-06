@@ -175,6 +175,10 @@ To write a literal `{{VERSION}}`, escape it with a backslash i.e. `{{\VERSION}}`
 
 ## Changelog
 
+### [v2.1.2 (2019-09-10)](https://github.com/dlip/envy.sh/releases/tag/v2.1.2)
+
+- Bugfix Bash v3.2.57 compatibility
+
 ### [v2.1.1 (2019-09-10)](https://github.com/dlip/envy.sh/releases/tag/v2.1.1)
 
 - Bugfix change make variables to be the simply expanded type
