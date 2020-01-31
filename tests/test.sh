@@ -100,7 +100,7 @@ export VERSION=1.0.0'
 
 @test "Given value with special characters and make output, should escape correctly" {
   result="$(../envy.sh escape.env make)"
-  expected='export PASSWORD:=$$\\\#GOD\#'\''" =/$$'
+  expected='export PASSWORD:=$$\\#GOD\#'\''" =/$$'
 
   assert_equal "${result}" "${expected}"
 }

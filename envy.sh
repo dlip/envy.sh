@@ -115,7 +115,7 @@ process_output() {
             echo "${K}=${V}" >> $OUTPUT
         elif [ "${OUTPUT_FORMAT}" == "make" ]; then
             MAKE_ESCAPED_VALUE=$(sed 's/\([$]\)/$\1/g' <<< "${V}")
-            MAKE_ESCAPED_VALUE=$(sed 's/\([#\\]\)/\\\1/g' <<< "${MAKE_ESCAPED_VALUE}")
+            MAKE_ESCAPED_VALUE=$(sed 's/\([#]\)/\\\1/g' <<< "${MAKE_ESCAPED_VALUE}")
             echo "export ${K}:=${MAKE_ESCAPED_VALUE}" >> $OUTPUT
         else
             echo "Unknown output format '${OUTPUT_FORMAT}'"
@@ -128,7 +128,7 @@ if [ -n "${1:-}" ]; then
     process_input "${1}"
     process_output
 else
-    echo "envy.sh v2.1.2"
+    echo "envy.sh v2.1.3"
     echo "Usage: envy.sh input [output-format] [output-file]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"
