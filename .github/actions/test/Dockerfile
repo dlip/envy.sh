@@ -34,6 +34,4 @@ RUN rm -rf /tmp/*
 
 COPY resources/load.bash /usr/local/lib/bats/
 
-ADD entrypoint.sh /entrypoint.sh
-
 CMD ["-c", "cd tests && ./test.sh"]
