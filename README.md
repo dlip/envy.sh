@@ -1,14 +1,14 @@
-# [envy.sh](https://github.com/dlip/envy.sh)🤵
+# [envy.sh](https://github.com/dlip/envy.sh)
 
-Stylish environment variable loading
+Env-like configuration with superpowers 🦸
 
 [![Actions Status](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/badge/dlip/envy.sh)](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/results/dlip/envy.sh)
 
 ## Features
 
-- Import other files
-- Import Vault secrets
-- Templating
+- Include other files
+- Include Vault secrets
+- Simple templating (variables only, no complex logic)
 
 ## Example
 
