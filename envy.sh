@@ -71,6 +71,10 @@ bash_escape() {
     sed 's/\([$\\"'\''/ ]\)/\\\1/g' <<< "${1}"
 }
 
+full_bash_escape() {
+    sed 's/\([$\\"'\''/{} ]\)/\\\1/g' <<< "${1}"
+}
+
 process_input() {
     INPUT=$1
     IS_LOCAL_FILE=true
@@ -110,7 +114,7 @@ process_output() {
     while read -r K; do
         V=$(printenv "${ENVY_NAMESPACE}${K}")
         if [ "${OUTPUT_FORMAT}" == "bash" ]; then
-            echo "export ${K}=$(bash_escape "${V}")" >> $OUTPUT
+            echo "export ${K}=$(full_bash_escape "${V}")" >> $OUTPUT
         elif [ "${OUTPUT_FORMAT}" == "env-file" ]; then
             echo "${K}=${V}" >> $OUTPUT
         elif [ "${OUTPUT_FORMAT}" == "make" ]; then
@@ -128,7 +132,7 @@ if [ -n "${1:-}" ]; then
     process_input "${1}"
     process_output
 else
-    echo "envy.sh v2.1.3"
+    echo "envy.sh v2.1.4"
     echo "Usage: envy.sh input [output-format] [output-file]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"

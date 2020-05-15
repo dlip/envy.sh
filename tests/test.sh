@@ -93,14 +93,14 @@ export VERSION=1.0.0'
 
 @test "Given value with special characters and bash output, should escape correctly" {
   result="$(../envy.sh escape.env)"
-  expected='export PASSWORD=\$\\#GOD#\'\''\"\ =\/\$'
+  expected='export PASSWORD=\$\\#GOD#\'\''\"\ =\/\$\{\}'
 
   assert_equal "${result}" "${expected}"
 }
 
 @test "Given value with special characters and make output, should escape correctly" {
   result="$(../envy.sh escape.env make)"
-  expected='export PASSWORD:=$$\\#GOD\#'\''" =/$$'
+  expected='export PASSWORD:=$$\\#GOD\#'\''" =/$${}'
 
   assert_equal "${result}" "${expected}"
 }
@@ -135,15 +135,15 @@ export VERSION=1.0.0'
   export VERSION=1.0.0
   result="$(../envy.sh templating.env)"
   expected='export DOUBLE=envy-1.0.0-pro
-export DOUBLE_NO_CLOSE=envy-{{VERSION-pro
-export DOUBLE_OPEN={{NAME-1.0.0-pro
+export DOUBLE_NO_CLOSE=envy-\{\{VERSION-pro
+export DOUBLE_OPEN=\{\{NAME-1.0.0-pro
 export NAME=envy
-export NOT_TEMPLATE=envy-{{}}-pro
-export NO_CLOSE_END=envy-{{
-export NO_CLOSE_MIDDLE=envy-{{-pro
-export NO_CLOSE_START={{-envy
+export NOT_TEMPLATE=envy-\{\{\}\}-pro
+export NO_CLOSE_END=envy-\{\{
+export NO_CLOSE_MIDDLE=envy-\{\{-pro
+export NO_CLOSE_START=\{\{-envy
 export VAR_END=envy-1.0.0
-export VAR_ESCAPE=envy-{{NOTVAR}}-pro
+export VAR_ESCAPE=envy-\{\{NOTVAR\}\}-pro
 export VAR_MIDDLE=envy-1.0.0-pro
 export VAR_START=1.0.0-pro
 export VERSION=1.0.0'
@@ -171,8 +171,8 @@ export VERSION=1.0.0'
 
 @test "Given templated value with special characters and bash output, should escape correctly" {
   result="$(../envy.sh templating-escape.env)"
-  expected='export PASSWORD=\$\\#GOD#\'\''\"\ =\/\$
-export TEMPLATED_PASSWORD=templated-\$\\#GOD#\'\''\"\ =\/\$'
+  expected='export PASSWORD=\$\\#GOD#\'\''\"\ =\/\$\{\}
+export TEMPLATED_PASSWORD=templated-\$\\#GOD#\'\''\"\ =\/\$\{\}'
 
   assert_equal "${result}" "${expected}"
 }
