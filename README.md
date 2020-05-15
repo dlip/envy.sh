@@ -2,7 +2,7 @@
 
 Env-like configuration with superpowers 🦸
 
-[![Actions Status](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/badge/dlip/envy.sh)](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/results/dlip/envy.sh)
+![Build Status](https://github.com/dlip/envy.sh/workflows/CI/badge.svg)
 
 ## Features
 
