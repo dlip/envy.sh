@@ -22,4 +22,4 @@ jobs:
           output-format: env-file
           output-file: action-output.env
       - name: Should write file
-        run: if ! grep -q PATTERN action-output.env; then exit 1; fi
+        run: if ! grep -q ENVIRONMENT=development action-output.env; then exit 1; fi
