@@ -10,7 +10,7 @@ jobs:
       - name: Test
         uses: ./.github/actions/test
       - name: Envy
-        uses: dlip/envy.sh
+        uses: dlip/envy.sh@master
         with:
           file: tests/basic.env
       - name: Test Envy acion
