@@ -12,6 +12,6 @@ jobs:
       - name: Envy
         uses: dlip/envy.sh@master
         with:
-          file: tests/basic.env
+          input-file: tests/basic.env
       - name: Test Envy acion
         run: if [[ "$ENVIRONMENT" != "development" || "$VERSION" != "v1.0.0"]]; then exit 1; fi
