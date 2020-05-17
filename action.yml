@@ -1,13 +1,21 @@
 name: 'envy.sh'
-description: 'Load environment variables envy style'
+description: 'Load env file envy style'
 inputs:
-  file:
+  input-file:
     description: 'Envy file to load'
-    required: true
+    required: false
     default: '.env'
+  output-format:
+    description: 'Output format'
+    required: false
+    default: 'github-actions'
+  output-file:
+    description: 'Output file'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.file }}
-    - github-actions
+    - ${{ inputs.input-file }}
+    - ${{ inputs.output-format }}
+    - ${{ inputs.output-file }}

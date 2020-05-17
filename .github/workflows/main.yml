@@ -14,4 +14,4 @@ jobs:
         with:
           file: tests/basic.env
       - name: Test Envy acion
-        run: echo "$ENVIRONMENT=$VERSION"
+        run: if [[ "$ENVIRONMENT" != "development" || "$VERSION" != "v1.0.0"]]; then exit 1; fi
