@@ -222,7 +222,7 @@ To write a literal `{{VERSION}}`, escape it with a backslash i.e. `{{\VERSION}}`
 
 ## Changelog
 
-### [v2.2.0 (2020-05-15)](https://github.com/dlip/envy.sh/releases/tag/v2.2.0)
+### [v2.2.0 (2020-05-17)](https://github.com/dlip/envy.sh/releases/tag/v2.2.0)
 
 - Feature github-actions output format
 - Feature error message now diplays line the error occured
