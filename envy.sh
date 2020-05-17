@@ -6,11 +6,17 @@ set -euo pipefail
 ENVY_NAMESPACE="__ENVY_"
 OUTPUT_FORMAT="${2:-bash}"
 OUTPUT="${3:-/dev/stdout}"
+LINE=1
+
 
 template () {
+    print_error(){
+        echo "Error while processing input on line $LINE" > /dev/stderr
+        exit 1
+    }
+    trap print_error ERR
     local RESULT=""
     local LAST_CHAR=""
-
     # Read input char by char
     while read -n1 CHAR; do
         # If found {{
@@ -76,6 +82,12 @@ full_bash_escape() {
 }
 
 process_input() {
+    print_error(){
+        echo "Error while processing input on line $LINE" > /dev/stderr
+        exit 1
+    }
+    trap print_error ERR
+
     INPUT=$1
     IS_LOCAL_FILE=true
     if grep -q "^vault://" <<< "${INPUT}"; then
@@ -99,6 +111,7 @@ process_input() {
             export ${K}="${V}"
             export ${ENVY_NAMESPACE}${K}="${V}"
         fi
+        LINE=$((LINE + 1))
     done <<< "${CONTENTS}"
     if [ "${IS_LOCAL_FILE}" == "true" ]; then
         popd > /dev/null
@@ -121,6 +134,8 @@ process_output() {
             MAKE_ESCAPED_VALUE=$(sed 's/\([$]\)/$\1/g' <<< "${V}")
             MAKE_ESCAPED_VALUE=$(sed 's/\([#]\)/\\\1/g' <<< "${MAKE_ESCAPED_VALUE}")
             echo "export ${K}:=${MAKE_ESCAPED_VALUE}" >> $OUTPUT
+        elif [ "${OUTPUT_FORMAT}" == "github-actions" ]; then
+            echo "::set-env name=${K}::${V}" >> $OUTPUT
         else
             echo "Unknown output format '${OUTPUT_FORMAT}'"
             exit 1
@@ -132,7 +147,7 @@ if [ -n "${1:-}" ]; then
     process_input "${1}"
     process_output
 else
-    echo "envy.sh v2.1.4"
+    echo "envy.sh v2.2.0"
     echo "Usage: envy.sh input [output-format] [output-file]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"
