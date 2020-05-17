@@ -1,5 +1,9 @@
-name: 'envy.sh'
-description: 'Load env file envy style'
+name: 'dlip/envy.sh'
+description: 'Load env files into environment variables envy style'
+author: 'Dane Lipscombe'
+branding:
+  icon: 'globe'
+  color: 'green'
 inputs:
   input-file:
     description: 'Envy file to load'
