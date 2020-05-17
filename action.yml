@@ -10,3 +10,4 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.file }}
+    - github-actions
