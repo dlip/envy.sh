@@ -98,6 +98,46 @@ clean:
 	-rm -f $(ENVY_MK)
 ```
 
+### Github actions
+
+You can use the premade github action by adding a step, such as in the example below.
+
+```yaml
+name: example-pipeline
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Load env-file using Envy
+        uses: dlip/envy.sh@v2.2.0
+        with:
+          input-file: tests/basic.env
+
+      - name: Print env
+        run: env
+```
+
+Here are the other input arguments, which you can use to write an output file in any of the output formats envy supports:
+
+```yaml
+input-file:
+  description: 'Envy file to load'
+  required: false
+  default: '.env'
+output-format:
+  description: 'Output format'
+  required: false
+  default: 'github-actions'
+output-file:
+  description: 'Output file'
+  required: false
+```
+
 ## Supported Inputs
 
 ### env-file
