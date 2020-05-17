@@ -145,6 +145,13 @@ ENVIRONMENT=development
 VERSION=v1.0.0
 ```
 
+### github-actions
+
+```
+::set-env name=ENVIRONMENT::development
+::set-env name=VERSION::1.0.0
+```
+
 ## Includes
 
 To include another input, add the key `_INCLUDE*` with the name of the input as the value. It supports any of the inputs listed above. eg:
@@ -174,6 +181,11 @@ To write a literal `{{VERSION}}`, escape it with a backslash i.e. `{{\VERSION}}`
 - Lines are sorted alphabetically before the output is written for consistency
 
 ## Changelog
+
+### [v2.2.0 (2020-05-15)](https://github.com/dlip/envy.sh/releases/tag/v2.2.0)
+
+- Feature github-actions output format
+- Feature error message now diplays line the error occured
 
 ### [v2.1.4 (2020-05-15)](https://github.com/dlip/envy.sh/releases/tag/v2.1.4)
 

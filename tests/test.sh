@@ -58,6 +58,14 @@ export VERSION:=1.0.0'
   assert_equal "${result}" "${expected}"
 }
 
+@test "Given env-file input and github-actions output, should output variables with github-actions syntax" {
+  result="$(../envy.sh basic.env github-actions)"
+  expected='::set-env name=ENVIRONMENT::development
+::set-env name=VERSION::1.0.0'
+
+  assert_equal "${result}" "${expected}"
+}
+
 @test "Given include, should combine output" {
   result="$(../envy.sh include.env)"
   expected='export ENVIRONMENT=development
