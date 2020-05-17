@@ -1,24 +1,24 @@
-name: 'dlip/envy.sh'
-description: 'Load env files into environment variables envy style'
-author: 'Dane Lipscombe'
+name: "dlip/envy.sh"
+description: "Load env files into environment variables envy style"
+author: "Dane Lipscombe"
 branding:
-  icon: 'globe'
-  color: 'green'
+  icon: "globe"
+  color: "green"
 inputs:
   input-file:
-    description: 'Envy file to load'
+    description: "Envy file to load"
     required: false
-    default: '.env'
+    default: ".env"
   output-format:
-    description: 'Output format'
+    description: "Output format"
     required: false
-    default: 'github-actions'
+    default: "github-actions"
   output-file:
-    description: 'Output file'
+    description: "Output file"
     required: false
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: "docker"
+  image: "github-action/Dockerfile"
   args:
     - ${{ inputs.input-file }}
     - ${{ inputs.output-format }}
