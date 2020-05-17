@@ -1,0 +1,12 @@
+name: 'envy.sh'
+description: 'Load environment variables envy style'
+inputs:
+  file:
+    description: 'Envy file to load'
+    required: true
+    default: '.env'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.file }}
