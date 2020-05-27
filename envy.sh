@@ -90,11 +90,11 @@ process_input() {
 
     INPUT=$1
     IS_LOCAL_FILE=true
-    if grep -q "^vault://" <<< "${INPUT}"; then
+    elif grep -q "^aws-ssm://" <<< "${INPUT}"; then
         IS_LOCAL_FILE=false
-        VAULT_PATH=$(echo ${INPUT} | sed 's/vault:\/\///')
-        VAULT_RESPONSE=$(vault read ${VAULT_PATH} -format=json)
-        CONTENTS=$(echo ${VAULT_RESPONSE} | jq -r '.data|to_entries|map("\(.key)=\(.value|tostring)")|.[]')
+        SSM_PATH=$(echo ${INPUT} | sed 's/aws-ssm:\/\///')
+        SSM_RESPONSE=$(aws ssm get-parameters-by-path --path "${SSM_PATH}" --with-decryption)
+        CONTENTS=$(echo ${SSM_RESPONSE} | jq -r ".Parameters|map(\"\(.Name|sub(\"${SSM_PATH}/\";\"\"))=\(.Value|tostring)\")|.[]")
     else
         FILEPATH=$(dirname "${INPUT}")
         pushd "${FILEPATH}" > /dev/null
