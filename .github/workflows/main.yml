@@ -10,13 +10,13 @@ jobs:
       - name: Test
         uses: ./.github/actions/test
       - name: When Github action is given a basic input file
-        uses: dlip/envy.sh@2.2.2
+        uses: dlip/envy.sh@v2.2.2
         with:
           input-file: tests/basic.env
       - name: Should set environment variables in the next step
         run: if [[ "$ENVIRONMENT" != "development" || "$VERSION" != "1.0.0" ]]; then exit 1; fi
       - name: When Github action is given a basic input file with output file
-        uses: dlip/envy.sh@2.2.2
+        uses: dlip/envy.sh@v2.2.2
         with:
           input-file: tests/basic.env
           output-format: env-file
