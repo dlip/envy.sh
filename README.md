@@ -229,6 +229,10 @@ To write a literal `{{VERSION}}`, escape it with a backslash i.e. `{{\VERSION}}`
 
 ## Changelog
 
+### [v2.3.1 (2020-05-27)](https://github.com/dlip/envy.sh/releases/tag/v2.3.1)
+
+- Fix release
+
 ### [v2.3.0 (2020-05-27)](https://github.com/dlip/envy.sh/releases/tag/v2.3.0)
 
 - Add AWS SSM input
