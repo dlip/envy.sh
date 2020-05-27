@@ -7,7 +7,7 @@ Env-like configuration with superpowers 🦸
 ## Features
 
 - Include other files
-- Include Vault secrets
+- Include Vault and AWS SES secrets
 - Simple templating (variables only, no complex logic)
 
 ## Example
@@ -42,6 +42,9 @@ export VERSION=1.0.0
 - bash
 - If using vault:
     - [vault](https://www.vaultproject.io/docs/install/)
+    - [jq](https://github.com/stedolan/jq)
+- If using AWS SSM:
+    - [aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
     - [jq](https://github.com/stedolan/jq)
 - Alternatively you can use the [docker](https://docs.docker.com/install/) [image](https://cloud.docker.com/u/dlip/repository/docker/dlip/envy.sh) which contains all the dependencies. To create an alias called `envy.sh` run:
   - `alias envy.sh='docker run -it --rm -v $PWD:/envy --workdir /envy dlip/envy.sh'`
@@ -161,6 +164,10 @@ URI eg. `vault://secret/myapp/secrets` with data in key value format:
 }
 ```
 
+### AWS SSM
+
+URI to path of secrets eg. `aws-ssm:///myapp/secrets`:
+
 ## Supported Output Formats
 
 ### bash (default)
@@ -222,7 +229,11 @@ To write a literal `{{VERSION}}`, escape it with a backslash i.e. `{{\VERSION}}`
 
 ## Changelog
 
-### [v2.2.2 (2020-05-17)](https://github.com/dlip/envy.sh/releases/tag/v2.2.1)
+### [v2.3.0 (2020-05-17)](https://github.com/dlip/envy.sh/releases/tag/v2.3.0)
+
+- Add AWS SSM input
+
+### [v2.2.2 (2020-05-17)](https://github.com/dlip/envy.sh/releases/tag/v2.2.2)
 
 - Use prebuilt container in github action
 
