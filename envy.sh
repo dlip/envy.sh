@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# envy.sh: https://github.com/dlip/envy.sh
+# Env-like configuration with superpowers
+# https://github.com/dlip/envy.sh
 
 set -euo pipefail
 
