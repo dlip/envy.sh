@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Env-like configuration with superpowers https://github.com/dlip/envy.sh
 
+
 set -euo pipefail
 
 ENVY_NAMESPACE="__ENVY_"
@@ -100,9 +101,9 @@ process_input() {
         SSM_PATH=$(echo ${INPUT} | sed 's/aws-ssm:\/\///')
         SSM_RESPONSE=$(aws ssm get-parameters-by-path --path "${SSM_PATH}" --with-decryption)
         CONTENTS=$(echo ${SSM_RESPONSE} | jq -r ".Parameters|map(\"\(.Name|sub(\"${SSM_PATH}/\";\"\"))=\(.Value|tostring)\")|.[]")
-        if [ -z $CONTENTS ]; then
+        if [ -z "${CONTENTS}" ]; then
             echo "Error: Didn't receive any secrets from AWS SSM path ${SSM_PATH}, is the access key and region correct?"
-            exit 1
+            false
         fi
     else
         FILEPATH=$(dirname "${INPUT}")
@@ -156,7 +157,7 @@ if [ -n "${1:-}" ]; then
     process_input "${1}"
     process_output
 else
-    echo "envy.sh v2.3.3"
+    echo "envy.sh v2.3.4"
     echo "Usage: envy.sh input [output-format] [output-file]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"

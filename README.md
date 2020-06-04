@@ -117,7 +117,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Load env-file using Envy
-        uses: dlip/envy.sh@v2.3.3
+        uses: dlip/envy.sh@v2.3.4
         with:
           input-file: tests/basic.env
 
@@ -229,11 +229,15 @@ To write a literal `{{VERSION}}`, escape it with a backslash i.e. `{{\VERSION}}`
 
 ## Changelog
 
-### [v2.3.3 (2020-05-27)](https://github.com/dlip/envy.sh/releases/tag/v2.3.3)
+### [v2.3.4 (2020-06-04)](https://github.com/dlip/envy.sh/releases/tag/v2.3.4)
+
+- Fix null check
+
+### [v2.3.3 (2020-06-04)](https://github.com/dlip/envy.sh/releases/tag/v2.3.3)
 
 - Throw error when no AWS secrets are found
 
-### [v2.3.2 (2020-05-27)](https://github.com/dlip/envy.sh/releases/tag/v2.3.2)
+### [v2.3.2 (2020-06-04)](https://github.com/dlip/envy.sh/releases/tag/v2.3.2)
 
 - Throw error when no AWS secrets are found
 

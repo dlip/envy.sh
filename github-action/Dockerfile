@@ -1,1 +1,1 @@
-FROM dlip/envy.sh:2.3.3
+FROM dlip/envy.sh:2.3.4
