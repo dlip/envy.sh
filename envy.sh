@@ -139,7 +139,7 @@ process_output() {
     fi
 
     ENVY_ENV=$(env | sort | grep -s "^${ENVY_NAMESPACE}" || true)
-    if [ -z "${ENVY_ENV}"]; then
+    if [ -z "${ENVY_ENV}" ]; then
         # Empty file
         return
     fi
@@ -168,7 +168,7 @@ if [ -n "${1:-}" ]; then
     process_input "${1}"
     process_output
 else
-    echo "envy.sh v2.3.6"
+    echo "envy.sh v2.3.7"
     echo "Usage: envy.sh input [output-format] [output-file]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"
