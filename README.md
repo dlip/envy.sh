@@ -229,6 +229,10 @@ To write a literal `{{VERSION}}`, escape it with a backslash i.e. `{{\VERSION}}`
 
 ## Changelog
 
+### [v2.3.5 (2020-06-16)](https://github.com/dlip/envy.sh/releases/tag/v2.3.5)
+
+- Handle empty env file
+
 ### [v2.3.4 (2020-06-04)](https://github.com/dlip/envy.sh/releases/tag/v2.3.4)
 
 - Fix null check

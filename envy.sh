@@ -109,7 +109,12 @@ process_input() {
         FILEPATH=$(dirname "${INPUT}")
         pushd "${FILEPATH}" > /dev/null
         FILENAME=$(basename "${INPUT}")
-        CONTENTS=$(cat "${FILENAME}" | grep "^[^#]")
+
+        CONTENTS=$(cat "${FILENAME}" | grep "^[^#]" || true)
+        if [ -z $CONTENTS ]; then
+            # Empty file
+            return
+        fi
     fi
     while read -r PAIR; do
         K=${PAIR%%"="*}
@@ -133,7 +138,13 @@ process_output() {
         rm -f "${OUTPUT}"
     fi
 
-    ENVY_ENV=$(env | sort | grep "^${ENVY_NAMESPACE}" | sed "s/^${ENVY_NAMESPACE}\([^=]*\)=.*/\1/")
+    ENVY_ENV=$(env | sort | grep -s "^${ENVY_NAMESPACE}" || true)
+    if [ -z $ENVY_ENV ]; then
+        # Empty file
+        return
+    fi
+
+    ENVY_ENV=$(echo "$ENVY_ENV" | sed "s/^${ENVY_NAMESPACE}\([^=]*\)=.*/\1/")
     while read -r K; do
         V=$(printenv "${ENVY_NAMESPACE}${K}")
         if [ "${OUTPUT_FORMAT}" == "bash" ]; then
@@ -157,7 +168,7 @@ if [ -n "${1:-}" ]; then
     process_input "${1}"
     process_output
 else
-    echo "envy.sh v2.3.4"
+    echo "envy.sh v2.3.5"
     echo "Usage: envy.sh input [output-format] [output-file]"
     echo "Valid inputs: env-file, vault"
     echo "Valid output formats: bash (default), make, env-file"

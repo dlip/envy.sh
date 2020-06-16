@@ -34,6 +34,10 @@ export VERSION=1.0.0'
   assert_equal "${result}" "${expected}"
 }
 
+@test "Given empty env-file, should not error" {
+  result="$(../envy.sh empty.env)"
+}
+
 @test "Given env-file input with unsorted lines, should sort the output" {
   result="$(../envy.sh sort.env)"
   expected='export A=first
