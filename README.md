@@ -117,7 +117,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Load env-file using Envy
-        uses: dlip/envy.sh@v2.3.4
+        uses: dlip/envy.sh@v2.3.5
         with:
           input-file: tests/basic.env
 
