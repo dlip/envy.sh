@@ -63,7 +63,7 @@ export VERSION:=1.0.0'
 }
 
 @test "Given env-file input and github-actions output, should output variables with github-actions syntax" {
-  result="$(../envy.sh basic.env github-actions)"
+  result="$(GITHUB_ENV=/dev/stdout ../envy.sh basic.env github-actions)"
   expected='ENVIRONMENT=development
 VERSION=1.0.0'
 
