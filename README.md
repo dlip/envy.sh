@@ -117,7 +117,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Load env-file using Envy
-        uses: dlip/envy.sh@v2.3.7
+        uses: dlip/envy.sh@v2.3.8
         with:
           input-file: tests/basic.env
 
@@ -228,6 +228,10 @@ To write a literal `{{VERSION}}`, escape it with a backslash i.e. `{{\VERSION}}`
 - Lines are sorted alphabetically before the output is written for consistency
 
 ## Changelog
+
+### [v2.3.8 (2020-06-16)](https://github.com/dlip/envy.sh/releases/tag/v2.3.8)
+
+- Update to new GitHub Actions syntax
 
 ### [v2.3.7 (2020-06-16)](https://github.com/dlip/envy.sh/releases/tag/v2.3.7)
 
