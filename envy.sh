@@ -8,7 +8,7 @@ ENVY_NAMESPACE="__ENVY_"
 OUTPUT_FORMAT="${2:-bash}"
 OUTPUT="${3:-/dev/stdout}"
 LINE=1
-
+GITHUB_ENV=${GITHUB_ENV:-/dev/stdout}
 
 template () {
     print_error(){
@@ -156,7 +156,7 @@ process_output() {
             MAKE_ESCAPED_VALUE=$(sed 's/\([#]\)/\\\1/g' <<< "${MAKE_ESCAPED_VALUE}")
             echo "export ${K}:=${MAKE_ESCAPED_VALUE}" >> $OUTPUT
         elif [ "${OUTPUT_FORMAT}" == "github-actions" ]; then
-            echo "::set-env name=${K}::${V}" >> $OUTPUT
+            echo "${K}=${V}" >> $GITHUB_ENV
         else
             echo "Unknown output format '${OUTPUT_FORMAT}'"
             exit 1

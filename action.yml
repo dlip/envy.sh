@@ -18,7 +18,7 @@ inputs:
     required: false
 runs:
   using: "docker"
-  image: "github-action/Dockerfile"
+  image: "Dockerfile"
   args:
     - ${{ inputs.input-file }}
     - ${{ inputs.output-format }}
