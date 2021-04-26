@@ -39,4 +39,6 @@ ENV BATS_FILE="/usr/local/lib/bats/bats-file"
 RUN mkdir -p /out
 ENV out="/out"
 
+ENV ENVY=../envy.sh
+
 CMD ["-c", "cd tests && bats ./test.sh"]
