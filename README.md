@@ -63,7 +63,7 @@ chmod +x ./envy.sh
 ### Via Nix Flake
 
 ``` sh
-nix-env -iA github:dlip/envy.sh
+nix run github:dlip/envy.sh
 ```
 
 ## Usage
