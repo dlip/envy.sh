@@ -51,11 +51,19 @@ export VERSION=1.0.0
 
 ## Installation
 
+### Via Curl
+
 Download `envy.sh` and add to your repository:
 
 ```
 curl -OL https://github.com/dlip/envy.sh/releases/latest/download/envy.sh
 chmod +x ./envy.sh
+```
+
+### Via Nix Flake
+
+``` sh
+nix-env -iA github:dlip/envy.sh
 ```
 
 ## Usage
