@@ -51,6 +51,7 @@
         ];
         phases = [ "buildPhase" ];
         buildPhase = ''
+          export ENVY="${defaultPackage.x86_64-linux}/bin/envy.sh"
           export BATS_SUPPORT="${bats-support}"
           export BATS_ASSERT="${bats-assert}"
           export BATS_FILE="${bats-file}"
