@@ -3,12 +3,12 @@ FROM bash:3.2.57
 WORKDIR /tests
 
 RUN apk --no-cache add \
-        bash \
-        curl \
-        zip \
-        unzip \
-        tar \
-        gzip
+    bash \
+    curl \
+    zip \
+    unzip \
+    tar \
+    gzip
 
 ENV BATS_VERSION "0.4.0"
 RUN curl -sSL https://github.com/sstephenson/bats/archive/v$BATS_VERSION.tar.gz -o /tmp/bats.tgz \
@@ -32,6 +32,13 @@ RUN mkdir -p /usr/local/lib/bats/bats-file \
 
 RUN rm -rf /tmp/*
 
-COPY resources/load.bash /usr/local/lib/bats/
+ENV BATS_SUPPORT="/usr/local/lib/bats/bats-support"
+ENV BATS_ASSERT="/usr/local/lib/bats/bats-assert"
+ENV BATS_FILE="/usr/local/lib/bats/bats-file"
 
-CMD ["-c", "cd tests && ./test.sh"]
+RUN mkdir -p /out
+ENV out="/out"
+
+ENV ENVY=../envy.sh
+
+CMD ["-c", "cd tests && bats ./test.sh"]

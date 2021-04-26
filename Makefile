@@ -20,4 +20,4 @@ build_test:
 
 .PHONY: test
 test:
-	docker run -it --rm -v $(PWD):/envy --workdir /envy $(TEST_IMAGE)
+	docker run -it --rm -e ENVY=/envy/envy.sh -v $(PWD):/envy --workdir /envy $(TEST_IMAGE)
