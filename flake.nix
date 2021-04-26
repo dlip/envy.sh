@@ -10,9 +10,11 @@
       stdenv.mkDerivation {
         name = "envy.sh";
         src = self;
-        executable = "envy.sh";
-        builder = "${bash}/bin/bash";
-        args = [ ./builder.sh ];
+        phases = [ "installPhase" ];
+        installPhase = ''
+          mkdir -p $out/bin
+          cp $src/envy.sh $out/bin
+        '';
       };
 
   };
