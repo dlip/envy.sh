@@ -13,10 +13,6 @@
         executable = "envy.sh";
         builder = "${bash}/bin/bash";
         args = [ ./builder.sh ];
-        installPhase = ''
-          mkdir -p $out/bin
-          mv envy.sh $out/bin/
-        '';
       };
 
   };
