@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Env-like configuration with superpowers https://github.com/dlip/envy.sh
 
-
 set -euo pipefail
 
 ENVY_NAMESPACE="__ENVY_"
