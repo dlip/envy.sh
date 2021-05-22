@@ -61,5 +61,8 @@
         '';
       };
 
+    hydraJobs = {
+      build.x86_64-linux = defaultPackage.x86_64-linux;
+    };
   };
 }
